@@ -1,0 +1,97 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #10b981, #3b82f6);
+    }
+    .glass-card {
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.3);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="glass-card mx-4 mt-4 rounded-full py-4 px-8 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+    <div class="flex items-center">
+      <div class="bg-emerald-500 text-white p-2 rounded-xl mr-3">
+        <i class="fas fa-utensils text-xl"></i>
+      </div>
+      <span class="text-xl font-bold text-gray-800">Save<span class="text-emerald-600">Food</span></span>
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+      <a href="/Homepage.html" class="hover:text-emerald-600 transition">Início</a>
+      <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
+      <a href="schedule.html" class="hover:text-emerald-600 transition">Agenda de Refeições</a>
+      <a href="dashboard.html" class="hover:text-emerald-600 transition">Dashboard</a>
+      <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
+      <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
+    </div>
+    <div class="flex justify-center md:justify-end">
+      <a href="login.html" class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+        Acessar Conta
+      </a>
+    </div>
+  </nav>
+
+  <section class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-bold text-white mb-12">Painel Pessoal</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="glass-card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Refeições Reservadas</h2>
+        <p class="text-3xl font-bold text-blue-600">12</p>
+        <p class="text-sm text-gray-600 mt-2">Total da semana</p>
+      </div>
+
+      <div class="glass-card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Última Refeição</h2>
+        <p class="text-lg font-medium text-gray-700">Salada de Tofu</p>
+        <p class="text-sm text-gray-500">Ontem às 12:30</p>
+      </div>
+
+      <div class="glass-card p-6">
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">Preferência Alimentar</h2>
+        <p class="inline-block bg-green-100 text-green-800 text-sm px-3 py-1 rounded-full">Vegetariano</p>
+        <p class="text-sm text-gray-600 mt-2">Com base nas últimas 30 refeições</p>
+      </div>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="glass-card p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Resumo Semanal</h2>
+        <ul class="text-gray-700 list-disc list-inside space-y-2">
+          <li>✅ Participou em 4 refeições.</li>
+          <li>✅ Reduziu 1.5kg de desperdício alimentar.</li>
+          <li>✅ Recompensa: +12 pontos de sustentabilidade.</li>
+        </ul>
+      </div>
+
+      <div class="glass-card p-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Ranking Pessoal</h2>
+        <p class="text-gray-700">Está no <span class="font-semibold text-emerald-600">Top 15%</span> dos estudantes mais sustentáveis da semana.</p>
+        <p class="text-sm text-gray-500 mt-2">Continue assim para ganhar mais benefícios!</p>
+      </div>
+    </div>
+
+    <div class="mt-10 glass-card p-6">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Notificações Recentes</h2>
+      <ul class="text-gray-700 space-y-2">
+        <li>📢 Novo menu vegetariano disponível na próxima semana.</li>
+        <li>🏆 Recebeu um selo de "Eco-Participante" esta semana.</li>
+        <li>⚠️ Lembrete: cancelar refeições até às 10h do dia anterior.</li>
+      </ul>
+    </div>
+  </section>
+
+</body>

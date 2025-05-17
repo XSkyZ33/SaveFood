@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+ 
+<body class="bg-gray-100">
+
+
+  <nav class="glass-card mx-4 mt-4 rounded-full py-4 px-8 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+    <div class="flex items-center">
+      <div class="bg-emerald-500 text-white p-2 rounded-xl mr-3">
+        <i class="fas fa-utensils text-xl"></i>
+      </div>
+      <span class="text-xl font-bold text-gray-800">Save<span class="text-emerald-600">Food</span></span>
+    </div>
+    <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+      <a href="/Homepage.html" class="hover:text-emerald-600 transition">Início</a>
+      <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
+      <a href="schedule.html" class="hover:text-emerald-600 transition">Agenda de Refeições</a>
+      <a href="dashboard.html" class="hover:text-emerald-600 transition">Dashboard</a>
+      <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
+      <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
+    </div>
+    <div class="flex justify-center md:justify-end">
+      <a href="login.html" class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+        Acessar Conta
+      </a>
+    </div>
+  </nav>
+
+  <section id="schedule" class="py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="glass-card p-6 rounded-lg">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">Agenda de Refeições</h2>
+          <div class="relative">
+            <select class="block appearance-none bg-white/80 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500">
+              <option>Esta Semana</option>
+              <option>Próxima Semana</option>
+              <option>Intervalo Personalizado</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- CALENDÁRIO -->
+        <div class="mb-8">
+          <div class="grid grid-cols-7 gap-1 mb-2">
+            <div class="text-center font-medium text-gray-500 py-2">Dom</div>
+            <div class="text-center font-medium text-gray-500 py-2">Seg</div>
+            <div class="text-center font-medium text-gray-500 py-2">Ter</div>
+            <div class="text-center font-medium text-gray-500 py-2">Qua</div>
+            <div class="text-center font-medium text-gray-500 py-2">Qui</div>
+            <div class="text-center font-medium text-gray-500 py-2">Sex</div>
+            <div class="text-center font-medium text-gray-500 py-2">Sáb</div>
+          </div>
+          <div class="grid grid-cols-7 gap-1">
+            <div class="bg-white/60 rounded p-2 h-24">1</div>
+            <div class="bg-white/60 rounded p-2 h-24">2</div>
+            <div class="bg-blue-50 border-2 border-blue-200 rounded p-2 h-24">
+              <div class="text-right">3</div>
+              <div class="text-xs mt-1 bg-blue-100 text-blue-800 rounded px-1 py-0.5">Almoço: Massa</div>
+            </div>
+            <div class="bg-blue-50 border-2 border-blue-200 rounded p-2 h-24">
+              <div class="text-right">4</div>
+              <div class="text-xs mt-1 bg-green-100 text-green-800 rounded px-1 py-0.5">almoço: Frango</div>
+              <div class="text-xs mt-1 bg-blue-100 text-blue-800 rounded px-1 py-0.5">Lanche: Salmão</div>
+            </div>
+            <div class="bg-white/60 rounded p-2 h-24">5</div>
+            <div class="bg-white/60 rounded p-2 h-24">6</div>
+            <div class="bg-white/60 rounded p-2 h-24">7</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Escolha a sua Refeição</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://images.unsplash.com/photo-1432139509613-5c4255815697?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGZvb2R8ZW58MHx8MHx8fDA%3D" class="w-full h-full object-cover" alt="Carne">
+              <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">Carne</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Frango marinado</h3>
+              <p class="text-sm text-gray-600">Frango marinado com arroz integral e brócolis salteados.</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€4.00</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+        
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://images.unsplash.com/photo-1709429790175-b02bb1b19207?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGFzYWduYXxlbnwwfHwwfHx8MA%3D%3D" class="w-full h-full object-cover" alt="Vegetariano">
+              <div class="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">Vegetariano</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Lasanha Vegetariana</h3>
+              <p class="text-sm text-gray-600">Berinjela grelhada com queijo ricota e molho de tomate fresco.</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€2.50</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+       
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZvb2R8ZW58MHx8MHx8fDA%3D" class="w-full h-full object-cover" alt="Peixe">
+              <div class="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold">Peixe</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Salmão Grelhado</h3>
+              <p class="text-sm text-gray-600">Salmão ao molho de limão com purê de batata doce.</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€3.50</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8c2FsYWRlfGVufDB8fDB8fHww" class="w-full h-full object-cover" alt="Dieta">
+              <div class="absolute top-2 left-2 bg-yellow-500 text-white px-2 py-1 rounded text-xs font-bold">Dieta</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Salada Detox</h3>
+              <p class="text-sm text-gray-600">Mix de folhas verdes com abacate, grão-de-bico e molho de limão.</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€3.90</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://images.unsplash.com/photo-1645295659958-88787b48fd03?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-full object-cover" alt="Vegetariano">
+              <div class="absolute top-2 left-2 bg-green-600 text-white px-2 py-1 rounded text-xs font-bold">Vegetariano</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Salada de Tofu</h3>
+              <p class="text-sm text-gray-600">Tofu cozido com legumes </p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€2.80</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="meal-card bg-white rounded-lg overflow-hidden shadow-md border">
+            <div class="relative h-40">
+              <img src="https://plus.unsplash.com/premium_photo-1664478291780-0c67f5fb15e6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWVhdCUyMGJhbGxzfGVufDB8fDB8fHww" class="w-full h-full object-cover" alt="Carne">
+              <div class="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">Carne</div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold text-lg">Almôndegas com Espaguete</h3>
+              <p class="text-sm text-gray-600">Almôndegas caseiras com molho de tomate e espaguete.</p>
+              <div class="flex justify-between items-center mt-4">
+                <span class="text-blue-600 font-bold">€4.20</span>
+                <a href="checkout.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-sm">Comprar</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+<script src="login.js"></script>
+</body>
+</html>

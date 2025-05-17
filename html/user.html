@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile & Meal History</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/styles/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<nav class="glass-card mx-4 mt-4 rounded-full py-4 px-8 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center">
+      <div class="bg-emerald-500 text-white p-2 rounded-xl mr-3">
+        <i class="fas fa-utensils text-xl"></i>
+      </div>
+      <span class="text-xl font-bold text-gray-800">Save<span class="text-emerald-600">Food</span></span>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+    <a href="/Homepage.html" class="hover:text-emerald-600 transition">Início</a>
+    <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
+    <a href="schedule.html" class="hover:text-emerald-600 transition">Agenda de Refeições</a>
+    <a href="dashboard.html" class="hover:text-emerald-600 transition">Dashboard</a>
+    <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
+    <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
+  </div>
+
+  <div class="flex justify-center md:justify-end">
+    <a href="login.html" class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+      Acessar Conta
+    </a>
+  </div>
+</nav>
+<body class="bg-gray-50 text-gray-800">
+
+ 
+  <section id="profile" class="py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row md:items-center md:justify-between">
+        
+        <div class="flex items-center space-x-6">
+          <div class="w-20 h-20">
+            <img class="w-full h-full object-cover rounded-full border-2 border-blue-500"
+              src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80"
+              alt="User avatar">
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-800">Joana</h2>
+            <p class="text-sm text-gray-600">40210101@esmad.ipp.pt</p>
+            
+          </div>
+        </div>
+
+        
+        <div class="mt-6 md:mt-0">
+          <p class="text-sm text-gray-700">Preferred Diet:</p>
+          <div class="mt-1">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+              Vegetarian
+            </span>
+            <span class="ml-2 text-xs text-gray-500">(60% of meals)</span>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+          <p class="text-sm text-gray-500">Total Meals Tracked</p>
+          <p class="mt-2 text-2xl font-bold text-blue-600">152</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow-md text-center">
+          <p class="text-sm text-gray-500">Most Frequent Type</p>
+          <p class="mt-2 text-lg font-semibold text-purple-600">Vegetarian</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="max-w-6xl mx-auto px-4 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h3 class="font-bold text-gray-800 mb-4 text-lg">Dietary Preferences</h3>
+      <div class="space-y-4">
+        <div>
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">Vegetarian</span>
+            <span class="text-sm font-medium text-gray-700">60%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-green-600 h-2.5 rounded-full" style="width: 60%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">Meat</span>
+            <span class="text-sm font-medium text-gray-700">25%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-red-600 h-2.5 rounded-full" style="width: 25%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">Fish</span>
+            <span class="text-sm font-medium text-gray-700">10%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-purple-600 h-2.5 rounded-full" style="width: 10%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-1">
+            <span class="text-sm font-medium text-gray-700">Vegan</span>
+            <span class="text-sm font-medium text-gray-700">5%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2.5">
+            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 5%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="text-sm text-gray-600">Your primary preference: <span class="font-bold">Vegetarian</span></p>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="history" class="py-12 bg-white px-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">Meal History</h2>
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <select class="block appearance-none bg-gray-100 border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-500">
+              <option>Last 7 Days</option>
+              <option>Last 30 Days</option>
+              <option>This Month</option>
+              <option>Custom Range</option>
+            </select>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Meal</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cost</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Consumed</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+           
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">Mon, Sep 25</td>
+              <td class="px-6 py-4 whitespace-nowrap flex items-center">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?ixlib=rb-4.0.3&auto=format&fit=crop&w=1469&q=80" class="h-10 w-10 rounded-full mr-4" alt="">
+                <span class="text-sm font-medium text-gray-900">Grilled Steak</span>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Meat</span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500">$3.50</td>
+              <td class="px-6 py-4">
+                <input type="checkbox"  checked>
+              </td>
+              <td class="px-6 py-4 text-sm font-medium">
+                <button class="text-blue-600 hover:text-blue-900">Details</button>
+              </td>
+            </tr>
+           
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
