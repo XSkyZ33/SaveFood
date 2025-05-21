@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .active-tab {
+      border-left: 4px solid #10b981;
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    .chart-container {
+      height: 250px;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="flex min-h-screen">
+    <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
+      <div>
+        <div class="p-4 border-b flex items-center">
+          <div class="bg-emerald-100 p-2 rounded-lg mr-3">
+            <i class="fas fa-utensils text-emerald-600"></i>
+          </div>
+          <h1 class="text-xl font-bold">Save<span class="text-emerald-600">Food</span></h1>
+        </div>
+
+        <div class="p-4 border-b flex items-center">
+          <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+            <i class="fas fa-user text-emerald-600"></i>
+          </div>
+          <div>
+            <p class="font-medium">Admin</p>
+            <p class="text-sm text-gray-500">ESMAD</p>
+          </div>
+        </div>
+
+        <nav class="mt-4">
+          <a href="#" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
+            <i class="fas fa-tachometer-alt w-6 mr-3 text-emerald-600"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-utensils w-6 mr-3 text-yellow-500"></i>
+            <span>Cardápios</span>
+          </a>
+          <a href="#" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-chart-pie w-6 mr-3 text-red-500"></i>
+            <span>Relatórios</span>
+          </a>
+          <a href="#" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-cog w-6 mr-3 text-gray-500"></i>
+            <span>Configurações</span>
+          </a>
+           <a href="#" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-user-graduate w-6 mr-3 text-gray-500"></i>
+            <span>Estudantes</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t">
+        <a href="#" class="flex items-center text-gray-700 hover:text-emerald-600">
+          <i class="fas fa-sign-out-alt w-6 mr-3"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </aside>
+
+    <main class="flex-1">
+      <header class="bg-white shadow-sm p-4">
+        <h1 class="text-2xl font-bold">Painel de Controlo Admin</h1>
+      </header>
+
+      <section class="p-4 space-y-6">
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Escola Superior de Media Artes e Design</h2>
+            <button class="bg-emerald-100 text-emerald-700 px-4 py-2 rounded hover:bg-emerald-200">
+              <i class="fas fa-edit mr-2"></i> Editar
+            </button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="border rounded-lg p-4">
+              <p class="text-gray-500">Total de Refeições</p>
+              <p class="text-3xl font-bold">4,782</p>
+            </div>
+            <div class="border rounded-lg p-4">
+              <p class="text-gray-500">Desperdício Hoje</p>
+              <p class="text-3xl font-bold">245kg</p>
+            </div>
+            <div class="border rounded-lg p-4">
+              <p class="text-gray-500">Redução Desperdício</p>
+              <p class="text-3xl font-bold text-emerald-600">32%</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Evolução do Desperdício</h3>
+            <select class="border rounded px-2 py-1 text-sm">
+              <option>Últimos 7 dias</option>
+              <option>Últimos 30 dias</option>
+              <option>Últimos 90 dias</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="wasteChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <h3 class="text-lg font-semibold mb-4">Desperdício por Tipo de Alimento</h3>
+          <div class="chart-container">
+            <canvas id="wasteTypeChart"></canvas>
+          </div>
+        </div>
+
+    
+        <div class="bg-white rounded-lg shadow">
+          <div class="p-6 border-b">
+            <h3 class="text-lg font-semibold">Alertas de Desperdício</h3>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div class="p-4 flex items-start">
+              <div class="bg-red-100 p-2 rounded-full mr-4">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">Alto desperdício de vegetais</h4>
+                <p class="text-sm text-gray-500">45kg de vegetais desperdiçados ontem - 25% acima da média</p>
+                <p class="text-xs text-gray-400 mt-1">Hoje, 09:30</p>
+              </div>
+            </div>
+            <div class="p-4 flex items-start">
+              <div class="bg-yellow-100 p-2 rounded-full mr-4">
+                <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+              </div>
+              <div>
+                <h4 class="font-medium">Preparação excessiva</h4>
+                <p class="text-sm text-gray-500">30% do arroz preparado foi desperdiçado no almoço</p>
+                <p class="text-xs text-gray-400 mt-1">Ontem, 16:45</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const wasteCtx = document.getElementById("wasteChart").getContext("2d");
+    new Chart(wasteCtx, {
+      type: "line",
+      data: {
+        labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"],
+        datasets: [{
+          label: "Desperdício (kg)",
+          data: [120, 110, 95, 85, 75, 60, 45],
+          borderColor: "#10b981",
+          backgroundColor: "rgba(16, 185, 129, 0.1)",
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    const wasteTypeCtx = document.getElementById("wasteTypeChart").getContext("2d");
+    new Chart(wasteTypeCtx, {
+      type: "bar",
+      data: {
+        labels: ["Vegetais", "Carnes", "Grãos", "Laticínios", "Frutas"],
+        datasets: [{
+          label: "Desperdício (kg)",
+          data: [45, 30, 25, 20, 15],
+          backgroundColor: ["#10b981", "#ef4444", "#f59e0b", "#3b82f6", "#8b5cf6"]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
+    });
+  </script>
+</body>
+</html>

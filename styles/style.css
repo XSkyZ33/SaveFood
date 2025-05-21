@@ -1,85 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #10b981, #3b82f6);
-      min-height: 100vh;
-    }
- 
-     .login-card {
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      background-color: rgba(255, 255, 255, 0.85);
-      border-radius: 14px;
-      border: 1px solid rgba(209, 213, 219, 0.3);
-      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
-    .btn-login {
-      background: linear-gradient(to right, #22c55e, #3b82f6);
-    }
+.login-card {
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 14px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  margin: 0 auto;
+}
 
-    .btn-login:hover {
-      box-shadow: 0 8px 18px rgba(34, 197, 94, 0.3);
-      transform: translateY(-2px);
-    }
 
-     .sidebar {
-      background: linear-gradient(to bottom, #10b981, #3b82f6);
-    }
-    .card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
-    }
-    .highlight {
-      background: linear-gradient(to right, #10b981, #3b82f6);
-      color: white;
-    }
-    .topbar {
-      background-color: white;
-      border-bottom: 1px solid #e5e7eb;
-    }
+.btn-login {
+  background: linear-gradient(to right, #22c55e, #3b82f6);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  width: 100%;
+}
+
+.btn-login:hover {
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.3);
+  transform: translateY(-2px);
+}
+
+
+.sidebar {
+  background: linear-gradient(to bottom, #10b981, #3b82f6);
+  width: 100%;
+  max-width: 240px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    max-width: 100%;
+  }
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  width: 100%;
+}
+
+.highlight {
+  background: linear-gradient(to right, #10b981, #3b82f6);
+  color: white;
+}
+
+.topbar {
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem;
+  width: 100%;
+}
 
 a {
   transition: all 0.3s ease-in-out;
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(16px) saturate(180%);
-    -webkit-backdrop-filter: blur(16px) saturate(180%);
-    border-radius: 12px;
-    border: 1px solid rgba(209, 213, 219, 0.3);
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15)
-}
-
-
-.icon-bg-emerald {
-  background-color: #10b981; 
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.logo-text {
-  user-select: none;
-}
-
-
 .nav-link {
   transition: color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
-  color: #374151; 
+  color: #374151;
 }
 .nav-link:hover {
-  color: #10b981; 
+  color: #10b981;
 }
 
 
@@ -98,16 +100,6 @@ a {
   color: white;
 }
 
-
-.hero-title {
-  user-select: none;
-}
-
-.hero-subtitle {
-  user-select: none;
-}
-
-
 .btn-primary {
   background-color: #10b981;
   color: white;
@@ -117,24 +109,39 @@ a {
   text-decoration: none;
 }
 .btn-primary:hover {
-  background-color: #059669; 
+  background-color: #059669;
 }
 
 .btn-highlight {
-  background-color: #facc15; 
-  color: #92400e; 
+  background-color: #facc15;
+  color: #92400e;
   font-weight: 600;
   transition: background-color 0.3s ease;
   cursor: pointer;
   text-decoration: none;
 }
 .btn-highlight:hover {
-  background-color: #ca8a04; 
+  background-color: #ca8a04;
+}
+
+
+.hero-title,
+.hero-subtitle {
+  user-select: none;
+  text-align: center;
 }
 
 .objetivos-section ul li,
 .beneficios-section ul li {
   user-select: none;
+  padding: 0.5rem 0;
+}
+
+.footer {
+  padding: 2rem;
+  background-color: #1f2937;
+  color: #9ca3af;
+  text-align: center;
 }
 
 .footer a {
@@ -146,20 +153,55 @@ a {
   color: white;
 }
 
- .meal-block {
-      position: absolute;
-      background-color: #34d399;
-      color: white;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      overflow: hidden;
-      
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 12px;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15);
+  padding: 1.5rem;
+  width: 100%;
+}
+
+
+.icon-bg-emerald {
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.meal-block {
+  position: absolute;
+  background-color: #34d399;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  overflow: hidden;
+}
+.calendar-hour {
+  height: 4rem;
+}
+.calendar-grid {
+  position: relative;
+  background-color: #fdfdfd;
+  width: 100%;
+  overflow-x: auto;
+}
+
+
+ .reward-card {
+      transition: all 0.3s ease;
+      cursor: pointer;
     }
-    .calendar-hour {
-      height: 4rem; 
-    }
-    .calendar-grid {
-      position: relative;
-    background-color: rgb(253, 253, 253);
+    .reward-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
     }
