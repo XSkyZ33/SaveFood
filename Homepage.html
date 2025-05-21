@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Save Food, webapp </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="/styles/style.css" />
+</head>
+
+<body>
+  <nav class="glass-card mx-4 mt-4 rounded-full py-4 px-8 flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <div class="icon-bg-emerald">
+          <i class="fas fa-utensils text-xl"></i>
+        </div>
+        <span class="logo-text text-xl font-bold">
+        Save<span class="text-emerald-600">Food</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="nav-links flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+      <a href="Homepage.html" class="nav-link">Início</a>
+      <a href="/html/refeicoes.html" class="nav-link">Marcar Refeições</a>
+      <a href="/html/schedule.html" class="nav-link">Agenda de Refeições</a>
+      <a href="/html/dashboard.html" class="nav-link">Dashboard</a>
+      <a href="/html/graficos.html" class="nav-link">Relatórios</a>
+      <a href="/html/user.html" class="nav-link">Ajuda</a>
+    </div>
+
+    <div class="flex justify-center md:justify-end">
+      <a href="/html/Login.html" class="btn-access">
+        Acessar Conta
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero-section flex flex-col md:flex-row items-center justify-between px-8 py-20 md:py-28">
+    <div class="hero-text md:w-1/2 mb-12 md:mb-0">
+      <h1 class="hero-title text-4xl md:text-5xl font-bold text-white mb-6">
+        Alimentação escolar mais
+        <span class="text-yellow-300">sustentável</span> e
+        <span class="text-emerald-300">inteligente</span>
+      </h1>
+      <p class="hero-subtitle text-white/90 text-lg mb-8">
+        Acompanhe refeições, reduza desperdício e promova hábitos saudáveis com o SaveFood.
+      </p>
+      <div class="hero-buttons flex space-x-4">
+        <a href="login.html" class="btn-primary py-3 px-8 rounded-lg">Entrar</a>
+        <a href="#como-funciona" class="btn-highlight py-3 px-8 rounded-lg shadow-md">Como Funciona</a>
+      </div>
+    </div>
+    <div class="glass-card p-4 rounded-2xl md:w-5/12">
+      <img
+        src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0"
+        alt="Ilustração Refeição"
+        class="w-full h-auto rounded-xl"
+      />
+    </div>
+  </section>
+
+  <section id="objetivos" class="objetivos-section bg-white bg-opacity-80 px-8 py-16">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="section-title text-3xl font-bold text-gray-800 mb-10 text-center">Objetivos da Plataforma</h2>
+      <div class="grid md:grid-cols-2 gap-8 text-gray-700">
+        <ul class="space-y-4 text-lg">
+          <li>✅ Monitorizar o consumo alimentar nas escolas.</li>
+          <li>✅ Reduzir o desperdício através da análise de dados.</li>
+          <li>✅ Sensibilizar a comunidade escolar para sustentabilidade.</li>
+          <li>✅ Fornecer relatórios e dados em tempo real.</li>
+        </ul>
+        <ul class="space-y-4 text-lg">
+          <li>✅ Promover hábitos alimentares responsáveis.</li>
+          <li>✅ Facilitar a gestão escolar com base em estatísticas.</li>
+          <li>✅ Envolver alunos com gamificação educativa.</li>
+          <li>✅ Integrar-se facilmente com sistemas escolares existentes.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="beneficios" class="beneficios-section bg-emerald-100 px-8 py-16">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="section-title text-3xl font-bold text-gray-800 mb-12 text-center">O que o Savefood oferece</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-6 rounded-xl text-center transition-transform duration-300 transform hover:scale-105">
+          <i class="fas fa-chart-line text-emerald-500 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Dashboard Informativo</h3>
+          <p>Visualize padrões de consumo e desperdício em tempo real.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl text-center transition-transform duration-300 transform hover:scale-105">
+          <i class="fas fa-seedling text-lime-500 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Educação Sustentável</h3>
+          <p>Notificações e conteúdos educativos para alunos e professores.</p>
+        </div>
+        <div class="glass-card p-6 rounded-xl text-center transition-transform duration-300 transform hover:scale-105">
+          <i class="fas fa-gamepad text-yellow-500 text-3xl mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Gamificação</h3>
+          <p>Desafios e recompensas para incentivar boas práticas alimentares.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer bg-gray-800 text-white py-12 px-8">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <div class="icon-bg-emerald p-2 rounded-xl mr-3">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <span class="logo-text text-xl font-bold">Save<span class="text-emerald-400">Food</span></span>
+        </div>
+        <p class="text-gray-400">Gestão inteligente de refeições escolares com foco em sustentabilidade.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-medium mb-4">Navegação</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#">Início</a></li>
+          <li><a href="#objetivos">Objetivos</a></li>
+          <li><a href="#beneficios">Benefícios</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-medium mb-4">Ajuda</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#">Suporte</a></li>
+          <li><a href="#">Privacidade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-lg font-medium mb-4">Contato</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li><i class="fas fa-envelope mr-2"></i> contato@Savefood.com</li>
+          <li><i class="fas fa-phone mr-2"></i> (XX) XXXX-XXXX</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
