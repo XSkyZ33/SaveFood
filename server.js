@@ -16,6 +16,16 @@ db.once('open', () => {
 
 app.use(express.json());
 
+const userRouter = require('./routes/users')
+const dishRouter = require('./routes/pratos')
+const estatisticaRouter = require('./routes/menu')
+const marcacaoRouter = require('./routes/marcacao')
+
+app.use('/users', userRouter);
+app.use('/dishes', dishRouter);
+app.use('/estatistica', estatisticaRouter);
+app.use('/marcacao', marcacaoRouter);
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
