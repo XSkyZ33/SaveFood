@@ -5,7 +5,7 @@ const validUser = {
   avatar: "https://images.unsplash.com/photo-1607746882042-944635dfe10e"
 };
 
-// --- LOGIN FUNCTION (para login.html) ---
+
 function handleLoginForm() {
   const form = document.getElementById("loginForm");
   if (!form) return;
