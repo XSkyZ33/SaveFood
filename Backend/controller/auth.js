@@ -174,7 +174,7 @@ const UpdateUser = async (req, res) => {
 
 exports.login = login;
 exports.register = register;
-exports.validateToken = validateToken;
-exports.validateAdmin = validateAdmin;
-exports.validateUser = validateUser;
 exports.UpdateUser = UpdateUser;
+exports.validateToken = validateToken;
+exports.validateUser = validateUser;
+exports.validateAdmin = validateAdmin;
