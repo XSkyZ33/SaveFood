@@ -2,6 +2,7 @@ const Users = require("../models/users");
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const recompensas = require("../models/recompensas");
 
 const cloudinary = require("cloudinary").v2;
 
@@ -104,8 +105,11 @@ const register = async (req, res) => {
                 password: hash,
                 avatar: user_image ? user_image.url : null,
                 cloudinary_id: user_image ? user_image.public_id : null,
-                discount: confirm,
-                admin: req.body.admin ? admin : false,
+                type_user: confirm ? 'user' : 'admin',
+                pontos_recompensas: 0,
+                pontos_bom_comportamento: 10,
+                recompensas: [],
+                createdAt: Date.now()
             });
 
             try {

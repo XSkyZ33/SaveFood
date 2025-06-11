@@ -16,6 +16,21 @@ db.once('open', () => {
 
 app.use(express.json());
 
+const usersRouter = require('./Backend/routes/users');
+const marcacoesRouter = require('./Backend/routes/marcacao');
+const estatisticasRouter = require('./Backend/routes/estatistica');
+const pratosRouter = require('./Backend/routes/pratos');
+const recompensasRouter = require('./Backend/routes/recompensas');
+
+
+app.use('/users', usersRouter);
+app.use('/marcacoes', marcacoesRouter);
+app.use('/estatisticas', estatisticasRouter);
+app.use('/pratos', pratosRouter);
+app.use('/recompensas', recompensasRouter);
+
+
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
+

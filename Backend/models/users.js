@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
+const recompensas = require('./recompensas')
 
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
+    
     email: {
         type: String,
         required: true,
@@ -13,6 +15,10 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
+    },
+    avatar: {
+        type: String,
+        default: null
     },
     type_user: {
         type: String,
@@ -30,7 +36,11 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    recompensas: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Recompensa'
+    }]
 })
 
 module.exports = mongoose.model('User', userSchema)

@@ -15,7 +15,7 @@ const marcacaoSchema = new mongoose.Schema({
         enum: ['Almoco', 'Jantar'],
         required: true
     },
-    tipo_prato:{
+    prato:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'TipoPrato',
         required: true
