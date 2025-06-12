@@ -1,4 +1,3 @@
-const { get } = require('mongoose');
 const Notificacao = require('../models/notificacao');
 
 const getNotificacoes = async (req, res) => {

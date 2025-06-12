@@ -12,7 +12,6 @@ const recompensasSchema = new mongoose.Schema({
     tipo_recompensa : {
         type: String,
         enum: ['voucher', 'codigo_desconto', 'produto'],
-        default: 'voucher',
         required: true
     },
     createdAt: {

@@ -1,12 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-
 const { validationResult, body, param } = require('express-validator')
-
 
 const controller = require('../controller/user.js');
 const auth = require('../controller/auth.js');
+
+const multer = require('multer')
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './uploads');
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + "-" + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({ storage }).single('image')
 
 router.get('/', controller.getUser);
 

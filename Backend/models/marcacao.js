@@ -23,7 +23,7 @@ const marcacaoSchema = new mongoose.Schema({
     estado: {
         type: String,
         enum: ['pedido', 'servido', 'cacelado', 'nao servido'],
-        default: 'confirmada'
+        default: 'pedido'
     },
 });
 

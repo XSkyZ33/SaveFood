@@ -16,18 +16,13 @@ const pratoSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    preco: {
-        type: Number,
-        required: true,
-        min: 0
-    },
     imagem: {
         type: String,
         default: null
     },
     tipo_prato: {
         type: String,
-        enum: ['entrada', 'prato_principal', 'sobremesa'],
+        enum: ['Dieta', 'Carne', 'Peixe', 'Vegetariano', 'Outro'],
         required: true
     },
     createdAt: {
