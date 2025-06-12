@@ -26,3 +26,5 @@ const marcacaoSchema = new mongoose.Schema({
         default: 'confirmada'
     },
 });
+
+module.exports = mongoose.model('Marcacao', marcacaoSchema, 'Marcacao');

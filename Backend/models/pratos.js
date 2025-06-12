@@ -36,4 +36,4 @@ const pratoSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Prato', pratoSchema);
+module.exports = mongoose.model('Pratos', pratoSchema, 'Pratos');

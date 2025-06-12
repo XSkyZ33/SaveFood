@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
+
+
 const { validationResult, body, param } = require('express-validator')
 
 
 const controller = require('../controller/user.js');
 const auth = require('../controller/auth.js');
 
-router.get('/', auth.validateToken, controller.getUsers);
+router.get('/', controller.getUser);
 
 router.get('/:id', auth.validateToken, [
     param('id').notEmpty().escape(),
@@ -41,7 +43,7 @@ router.put('/:id', auth.validateToken, [
 ], function (req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        controller.updateUser(req, res);
+        auth.updateUser(req, res);
     } else {
         res.status(404).json({ errors: errors.array() })
     }
@@ -64,20 +66,20 @@ router.post('/login', [
 ], function (req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        controller.login(req, res);
+        auth.login(req, res);
     } else {
         res.status(404).json({ errors: errors.array() })
     }
 });
 
 router.post('/register', [
-    body('nome').notEmpty().escape(),
+    body('name').notEmpty().escape(),
     body('email').notEmpty().isEmail().normalizeEmail(),
     body('password').notEmpty().escape(),
 ], function (req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        controller.register(req, res);
+        auth.register(req, res);
     } else {
         res.status(404).json({ errors: errors.array() })
     }

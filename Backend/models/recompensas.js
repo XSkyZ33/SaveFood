@@ -21,4 +21,4 @@ const recompensasSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Recompensa', recompensasSchema)
+module.exports = mongoose.model('Recompensas', recompensasSchema, 'Recompensas')

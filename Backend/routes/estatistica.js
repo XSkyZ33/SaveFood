@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const controller = require('../controller/estatistica.js');
+const controller = require('../controller/estatstica.js');
 const auth = require('../controller/auth.js');
 
 const { validationResult, body, param } = require('express-validator')

@@ -20,4 +20,4 @@ const estatisticaSchema = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('Estatistica', estatisticaSchema)
+module.exports = mongoose.model('Estatistica', estatisticaSchema, 'Estatistica')
