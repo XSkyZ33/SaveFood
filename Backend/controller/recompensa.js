@@ -1,5 +1,5 @@
-const Recompensa = require('../models/recompensa');
-const Utilizadpor = require('../models/utilizador');
+const Recompensa = require('../models/recompensas');
+const Utilizadpor = require('../models/users');
 
 const getRecompensas = async (req, res) => {
     try {
@@ -25,5 +25,83 @@ const createRecompensa = async (req, res) => {
     }
 }
 
+const updateRecompensa = async (req, res) => {
+    const id = req.params.id;
+    const { objetivo, descricao, tipo_recompensa } = req.body;
+    try {
+        const recompensa = await Recompensa.findByIdAndUpdate(id, {
+            objetivo,
+            descricao,
+            tipo_recompensa
+        }, { new: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao atualizar recompensa', error });
+    }
+    if (!recompensa) {
+        return res.status(404).json({ message: 'Recompensa não encontrada' });
+    }
+    res.status(200).json({ message: 'Recompensa atualizada com sucesso', recompensa });
+}
+
+const deleteRecompensa = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const recompensa = await Recompensa.findByIdAndDelete(id);
+        if (!recompensa) {
+            return res.status(404).json({ message: 'Recompensa não encontrada' });
+        }
+        res.status(200).json({ message: 'Recompensa deletada com sucesso' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao deletar recompensa', error });
+    }
+}
+
+const getRecompensasByUtilizador = async (req, res) => {
+    const utilizadorId = req.params.id;
+    try {
+        const utilizador = await Utilizadpor.findById(utilizadorId);
+        if (!utilizador) {
+            return res.status(404).json({ message: 'Utilizador não encontrado' });
+        }
+        const recompensas = await Recompensa.find({ utilizador: utilizadorId }).sort({ createdAt: -1 });
+        res.status(200).json(recompensas);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar recompensas do utilizador', error });
+    }
+}
+
+const getRecompensasByTipo = async (req, res) => {
+    const tipo = req.body.tipo_recompensa;
+    try {
+        const recompensas = await Recompensa.find({ tipo_recompensa: tipo }).sort({ createdAt: -1 });
+        if (recompensas.length === 0) {
+            return res.status(404).json({ message: 'Nenhuma recompensa encontrada para este tipo' });
+        }
+        res.status(200).json(recompensas);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar recompensas por tipo', error });
+    }
+}
+
+const getRecompensaById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const recompensa = await Recompensa.findById(id);
+        if (!recompensa) {
+            return res.status(404).json({ message: 'Recompensa não encontrada' });
+        }
+        res.status(200).json(recompensa);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar recompensa', error });
+    }
+}
+
+
+
 exports.getRecompensas = getRecompensas;
 exports.createRecompensa = createRecompensa;
+exports.updateRecompensa = updateRecompensa;
+exports.deleteRecompensa = deleteRecompensa;
+exports.getRecompensasByUtilizador = getRecompensasByUtilizador;
+exports.getRecompensasByTipo = getRecompensasByTipo;
+exports.getRecompensaById = getRecompensaById;
