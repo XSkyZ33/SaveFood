@@ -1,3 +1,4 @@
+const { get } = require('mongoose');
 const Notificacao = require('../models/notificacao');
 
 const getNotificacoes = async (req, res) => {
@@ -53,3 +54,32 @@ const deleteNotificacao = async (req, res) => {
         res.status(500).json({ message: 'Erro ao deletar notificação', error });
     }
 }
+
+getAllNotificacoes = async (req, res) => {
+    try {
+        const notificacoes = await Notificacao.find().sort({ createdAt: -1 });
+        res.status(200).json(notificacoes);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar todas as notificações', error });
+    }
+}
+
+getNotificacaoById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const notificacao = await Notificacao.findById(id);
+        if (!notificacao) {
+            return res.status(404).json({ message: 'Notificação não encontrada' });
+        }
+        res.status(200).json(notificacao);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao buscar notificação', error });
+    }
+}
+
+exports.getNotificacoes = getNotificacoes;
+exports.createNotificacao = createNotificacao;
+exports.updateNotificacao = updateNotificacao;
+exports.deleteNotificacao = deleteNotificacao;
+exports.getAllNotificacoes = getAllNotificacoes;
+exports.getNotificacaoById = getNotificacaoById;
