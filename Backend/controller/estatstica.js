@@ -23,7 +23,7 @@ const getEstatisticasById = async (req, res) => {
 }
 
 const getEstatisticasByTipo = async (req, res) => {
-    const tipo = req.params.tipo;
+    const tipo = req.body.tipo_estatistica;
     try {
         const estatisticas = await Estatistica.find({ tipo_estatistica: tipo }).sort({ data: -1 });
         if (estatisticas.length === 0) {
@@ -33,7 +33,7 @@ const getEstatisticasByTipo = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar estatísticas por tipo', error });
     }
-}
+};
 
 const createEstatistica = async (req, res) => {
     const { tipo_estatistica, observacao, dados } = req.body;

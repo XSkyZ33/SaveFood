@@ -10,12 +10,12 @@ const estatisticaSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    data: {
+    data_criacao: {
         type: Date,
         default: Date.now
     },
     dados: {
-        type: Object,
+        type: Array,
         required: true
     },
 })

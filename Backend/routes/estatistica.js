@@ -19,19 +19,25 @@ router.get('/:id', [
     }
 })
 
-router.post('/tipo', function (req, res) {
+router.post('/tipo', [
+    body('tipo_estatistica')
+        .notEmpty().withMessage("O tipo_estatistica é obrigatório")
+        .isIn(['diaria', 'mensal', 'anual', 'semanal', 'prato']).withMessage("Tipo inválido"),
+], function (req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         controller.getEstatisticasByTipo(req, res);
     } else {
-        res.status(404).json({ errors: errors.array() })
+        res.status(400).json({ errors: errors.array() }) // status 400 é melhor aqui
     }
-})
+});
+
 
 router.post('/', auth.validateAdmin, [
-    body('tipo').notEmpty().escape(),
+    body('tipo_estatistica').notEmpty().escape(),
     body('observacao').notEmpty().escape(),
-    body('dados').notEmpty().escape(),
+    body('dados').isArray({ min: 1 }).withMessage("Dados deve ser um array com pelo menos um elemento"),
+    body('dados.*').isObject().withMessage("Cada elemento de dados deve ser um objeto"),
 ], function (req, res) {
     const errors = validationResult(req);
     if (errors.isEmpty()) {

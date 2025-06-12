@@ -52,7 +52,7 @@ function validateAdmin(req, res, next) {
             return res.status(401).json({ message: 'Failed to authenticate token.' });
         }
         let user = await Users.findById(decoded.user_id).exec();
-        if (user.admin != true) {
+        if (user.type_user != "admin") {
             return res.status(401).json({ message: 'Unauthorized.' });
         }
         req.id = decoded.user_id;

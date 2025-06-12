@@ -43,6 +43,22 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const getAuthenticatedUser = async (req, res) => {
+    try {
+        console.log("User ID:", req.id); // 👈 debugging
+        const user = await Users.findById(req.id)
+            .select('-password')               // primeiro escondes o campo
+        if (!user) {
+            return res.status(404).json({ message: 'Utilizador não encontrado' });
+        }
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Erro:", error); // 👈 debugging
+        res.status(500).json({ message: 'Erro ao buscar utilizador', error });
+    }
+};
+
 exports.getUserById = getUserById;
 exports.getUser = getUser;
 exports.deleteUser = deleteUser;
+exports.getAuthenticatedUser = getAuthenticatedUser;
