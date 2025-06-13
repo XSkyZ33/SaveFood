@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const recompensas = require('./recompensas')
 
 const userSchema = new mongoose.Schema({
     name: {

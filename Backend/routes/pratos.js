@@ -3,20 +3,13 @@ const router = express.Router();
 
 const { validationResult, body, param } = require('express-validator')
 
-const multer = require('multer')
-
 const controller = require('../controller/prato.js');
+const auth = require('../controller/auth.js');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './uploads');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + path.extname(file.originalname))
-    }
-});
-
-const upload = multer({ storage }).single('image')
+const multer = require('multer')
+let storage = multer.memoryStorage();
+// acccepts a single file upload: specifies the form field name where multer looks for the file
+const multerUploads = multer({ storage }).single('image');
 
 router.get('/', controller.getPratos);
 
@@ -31,7 +24,18 @@ router.get('/:id', [
     }
 });
 
-router.post('/', upload, [
+router.get('/tipo/:tipo', [
+    param('tipo').notEmpty().escape(),
+], function (req, res) {
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        controller.getPratosByTipo(req, res);
+    } else {
+        res.status(404).json({ errors: errors.array() })
+    }
+});
+
+router.post('/', multerUploads, auth.validateAdmin, [
     body('nome').notEmpty().escape(),
     body('descricao').notEmpty().escape(),
     body('tipo_prato').notEmpty().escape(),
@@ -44,7 +48,7 @@ router.post('/', upload, [
     }
 });
 
-router.put('/:id', upload, [
+router.put('/:id', multerUploads, [
     param('id').notEmpty().escape(),
     body('nome').optional().escape(),
     body('descricao').optional().escape(),

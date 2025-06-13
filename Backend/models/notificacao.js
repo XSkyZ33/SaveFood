@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const notificacaoSchema = new mongoose.Schema({
     userId: {
@@ -11,7 +11,7 @@ const notificacaoSchema = new mongoose.Schema({
         required: true
     },
     estado: {
-        type: string,
+        type: String,  // Corrigi "string" para "String"
         enum: ['lida', 'nao lida', 'apagada'],
         default: 'nao lida'
     },
@@ -19,6 +19,6 @@ const notificacaoSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-})
+});
 
-module.exports = mongoose.model('Notificacao', notificacaoSchema, 'Notificacao')
+module.exports = mongoose.model('Notificacao', notificacaoSchema, 'Notificacao');

@@ -21,6 +21,7 @@ const marcacoesRouter = require('./Backend/routes/marcacao');
 const estatisticasRouter = require('./Backend/routes/estatistica');
 const pratosRouter = require('./Backend/routes/pratos');
 const recompensasRouter = require('./Backend/routes/recompensas');
+const notificacaosRouter = require('./Backend/routes/notificacao');
 
 
 app.use('/users', usersRouter);
@@ -28,6 +29,7 @@ app.use('/marcacoes', marcacoesRouter);
 app.use('/estatisticas', estatisticasRouter);
 app.use('/pratos', pratosRouter);
 app.use('/recompensas', recompensasRouter);
+app.use('/notificacoes', notificacaosRouter);
 
 
 app.listen(port, () => {

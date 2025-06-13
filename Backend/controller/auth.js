@@ -27,18 +27,29 @@ function validateToken(req, res, next) {
     });
 }
 
-function validateUser(req, res, next) {
-    const token = req.body.data_payload;
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided.' });
+const validateUser = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Token não fornecido ou inválido' });
     }
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
-        if (err) {
-            return res.status(401).json({ message: 'Failed to authenticate token.' });
+
+    const token = authHeader.split(' ')[1];
+
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET);
+
+        // Usa user_id como definiste no token
+        if (!decoded || !decoded.user_id) {
+            return res.status(401).json({ message: 'Token inválido (sem user_id)' });
         }
-        req.id = decoded.user_id;
+
+        req.user = { id: decoded.user_id }; // Agora está alinhado
         next();
-    });
+    } catch (error) {
+        console.error('Erro no validateUser:', error);
+        return res.status(401).json({ message: 'Token inválido ou expirado', error });
+    }
 };
 
 function validateAdmin(req, res, next) {

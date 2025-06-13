@@ -1,5 +1,13 @@
 const prato = require('../models/pratos');
 
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+
 const getPratos = async (req, res) => {
     try {
         const pratos = await prato.find().sort({ nome: 1 });
@@ -12,8 +20,7 @@ const getPratos = async (req, res) => {
 const getPratoById = async (req, res) => {
     const id = req.params.id;
     try {
-        const pratoItem = await prato.find
-        ById(id);
+        const pratoItem = await prato.findById(id);
         if (!pratoItem) {
             return res.status(404).json({ message: 'Prato não encontrado' });
         }
@@ -24,20 +31,49 @@ const getPratoById = async (req, res) => {
 }
 
 const createPrato = async (req, res) => {
-    const { nome, descricao, tipo_prato } = req.body;
     try {
+        let imagem = null;
+
+        // Verifica se foi enviada uma imagem
+        if (req.file) {
+            try {
+                const b64 = Buffer.from(req.file.buffer).toString("base64");
+                const dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+
+                // Faz upload para o Cloudinary
+                const result = await cloudinary.uploader.upload(dataURI, { resource_type: "auto" });
+                imagem = result;
+            } catch (uploadError) {
+                console.error("Erro ao fazer upload para o Cloudinary:", uploadError);
+                return res.status(500).json({
+                    message: 'Erro ao fazer upload da imagem para o Cloudinary',
+                    error: uploadError.message
+                });
+            }
+        }
+
+        const { nome, descricao, tipo_prato } = req.body;
+
         const newPrato = new prato({
             nome,
             descricao,
             tipo_prato,
-            imagem: req.file ? req.file.path : null
+            imagem: imagem ? imagem.url : null,
+            cloudinary_id: imagem ? imagem.public_id : null
         });
-        await newPrato.save();
+
+        await newPrato.save(); // Corrigido: antes estavas a chamar `create()` num objeto, o que não existe
+
         res.status(201).json({ message: 'Prato criado com sucesso', prato: newPrato });
+
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao criar prato', error });
+        console.error("Erro inesperado ao criar prato:", error);
+        res.status(500).json({
+            message: 'Erro ao criar prato',
+            error: error.message || 'Erro desconhecido'
+        });
     }
-}
+};
 
 const updatePrato = async (req, res) => {
     const id = req.params.id;

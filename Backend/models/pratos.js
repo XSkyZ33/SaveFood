@@ -4,10 +4,6 @@
 const mongoose = require('mongoose');
 
 const pratoSchema = new mongoose.Schema({
-    id: {
-        type: mongoose.Schema.Types.ObjectId,
-        auto: true
-    },
     nome: {
         type: String,
         required: true
