@@ -31,6 +31,8 @@ router.post('/tipo', [
     }
 });
 
+router.post('/resgatar', auth.validateUser, controller.resgatarRecompensa);
+
 router.post('/', auth.validateAdmin, [
     body('objetivo').isInt({ min: 1 }).withMessage("Objetivo deve ser um número inteiro positivo"),
     body('descricao').notEmpty().escape(),
@@ -43,5 +45,6 @@ router.post('/', auth.validateAdmin, [
         res.status(400).json({ errors: errors.array() });
     }
 });
+
 
 module.exports = router;

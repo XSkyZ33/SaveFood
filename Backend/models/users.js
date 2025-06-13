@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     recompensas: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recompensa'
+        ref: 'Recompensas'
     }]
 })
 

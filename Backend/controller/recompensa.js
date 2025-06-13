@@ -1,5 +1,5 @@
 const Recompensa = require('../models/recompensas');
-const Utilizadpor = require('../models/users');
+const Utilizador = require('../models/users');
 
 const getRecompensas = async (req, res) => {
     try {
@@ -97,6 +97,51 @@ const getRecompensaById = async (req, res) => {
 }
 
 
+const resgatarRecompensa = async (req, res) => {
+    const utilizadorId = req.user.id; // vem do token JWT
+    const { recompensaId } = req.body;
+
+    try {
+        // Verifica se o utilizador existe
+        const utilizador = await Utilizador.findById(utilizadorId);
+        if (!utilizador) {
+            return res.status(404).json({ message: 'Utilizador não encontrado' });
+        }
+
+        // Verifica se a recompensa existe
+        const recompensa = await Recompensa.findById(recompensaId);
+        if (!recompensa) {
+            return res.status(404).json({ message: 'Recompensa não encontrada' });
+        }
+
+        // Verifica pontos de bom comportamento
+        if (utilizador.pontos_bom_comportamento <= 0) {
+            return res.status(403).json({ message: 'Não pode resgatar recompensas com 0 pontos de bom comportamento' });
+        }
+
+        // Verifica se tem pontos suficientes
+        if (utilizador.pontos_recompensas < recompensa.objetivo) {
+            return res.status(403).json({ message: 'Pontos de recompensa insuficientes' });
+        }
+
+        // Desconta os pontos e adiciona recompensa
+        utilizador.pontos_recompensas -= recompensa.objetivo;
+        utilizador.recompensas.push(recompensa._id);
+        await utilizador.save();
+
+        return res.status(200).json({
+            message: 'Recompensa resgatada com sucesso',
+            recompensaResgatada: recompensa,
+            pontosRestantes: utilizador.pontos_recompensas
+        });
+
+    } catch (error) {
+        console.error('Erro ao resgatar recompensa:', error);
+        res.status(500).json({ message: 'Erro interno ao resgatar recompensa', error });
+    }
+};
+
+
 
 exports.getRecompensas = getRecompensas;
 exports.createRecompensa = createRecompensa;
@@ -105,3 +150,4 @@ exports.deleteRecompensa = deleteRecompensa;
 exports.getRecompensasByUtilizador = getRecompensasByUtilizador;
 exports.getRecompensasByTipo = getRecompensasByTipo;
 exports.getRecompensaById = getRecompensaById;
+exports.resgatarRecompensa = resgatarRecompensa;

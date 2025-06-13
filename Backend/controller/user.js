@@ -16,15 +16,13 @@ const getUserById = (req, res) => {
 };
 
 
-const getUser = (req, res) => {
+const getUser = async (req, res) => {
     try {
-        Users.find().then((user) => {
-            res.status(200).json({ user })
-        });
+        const users = await Users.find().populate('recompensas');
+        res.status(200).json({ users });
     } catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(500).json({ message: 'Erro ao buscar utilizadores', error: err.message });
     }
-
 };
 
 
@@ -47,7 +45,8 @@ const getAuthenticatedUser = async (req, res) => {
     try {
         console.log("User ID:", req.id); // 👈 debugging
         const user = await Users.findById(req.id)
-            .select('-password')               // primeiro escondes o campo
+            .select('-password')  
+            .populate('recompensas')             // primeiro escondes o campo
         if (!user) {
             return res.status(404).json({ message: 'Utilizador não encontrado' });
         }
