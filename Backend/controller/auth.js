@@ -2,7 +2,6 @@ const Users = require("../models/users");
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const recompensas = require("../models/recompensas");
 
 const cloudinary = require("cloudinary").v2;
 
