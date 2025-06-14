@@ -35,7 +35,7 @@ router.post('/register', multerUploads, [
     body('password').notEmpty().escape(),
 ], validateRequest, auth.register);
 
-router.put('/:id', auth.validateToken, [
+router.put('/:id', auth.validateToken, multerUploads, [
     param('id').notEmpty().escape(),
     body('nome').notEmpty().escape(),
     body('email').notEmpty().isEmail().normalizeEmail(),

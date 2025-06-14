@@ -101,9 +101,15 @@ const register = async (req, res) => {
             let user_image = null;
 
             if (req.file) {
-                let img_file = req.file.path;
-                let result = await cloudinary.uploader.upload(img_file);
-                user_image = result;
+                const b64 = Buffer.from(req.file.buffer).toString("base64");
+                const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+                try {
+                    const imagem = await cloudinary.uploader.upload(dataURI, { resource_type: "image" });
+                    user_image = imagem;
+                } catch (error) {
+                    console.error("Erro no upload da imagem:", error);
+                    return res.status(500).json({ message: "Erro ao fazer upload da imagem" });
+                }
             }
 
             let regex = new RegExp('[a-z0-9]+@[a-z]+\.ipp.pt');
@@ -120,6 +126,7 @@ const register = async (req, res) => {
                 pontos_recompensas: 0,
                 pontos_bom_comportamento: 10,
                 recompensas: [],
+                notificacoes: [],
                 createdAt: Date.now()
             });
 
@@ -145,47 +152,50 @@ const register = async (req, res) => {
 const UpdateUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, password, avatar } = req.body;
+
     try {
         const db_user = await Users.findById(req.id).exec();
         const user = await Users.findById(id).exec();
 
-        console.log(db_user._id)
-        console.log(user._id)
+        if (!user) {
+            return res.status(404).json({ message: "Usuário não encontrado" });
+        }
 
-        if (db_user._id.toString() === user._id.toString() || db_user.admin === true) {
-            if (name) {
-                user.name = name;
-            }
-            if (email) {
-                user.email = email;
-            }
-            if (password) {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                user.password = hashedPassword;
-            }
-            if (avatar) {
-                let user_image = null;
-                if (req.file) {
-                    let img_file = req.file.path;
-                    let result = await cloudinary.uploader.upload(img_file);
-                    user_image = result;
-                }
-                user.avatar = user_image ? user_image.url : null;
-                user.cloudinary_id = user_image ? user_image.public_id : null;
-            }
-
-            await user.save();
-            res.status(200).json({ message: "Updated User" })
-
-        } else {
+        if (db_user._id.toString() !== user._id.toString() && db_user.type_user !== 'admin') {
             return res.status(401).json({ message: 'Unauthorized.' });
         }
 
-    } catch (err) {
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
+        if (name) user.name = name;
+        if (email) user.email = email;
+        if (password) {
+            user.password = await bcrypt.hash(password, 10);
+        }
 
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString("base64");
+            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+            try {
+                const imagem = await cloudinary.uploader.upload(dataURI, { resource_type: "image" });
+                user.avatar = imagem.secure_url;
+                user.cloudinary_id = imagem.public_id;
+            } catch (error) {
+                console.error("Erro no upload da imagem:", error);
+                return res.status(500).json({ message: "Erro ao fazer upload da imagem" });
+            }
+        } else if (avatar === null || avatar === '') {
+            // Se o campo avatar for enviado vazio ou null, zera o avatar e cloudinary_id
+            user.avatar = null;
+            user.cloudinary_id = null;
+        }
+
+        await user.save();
+        res.status(200).json({ message: "Usuário atualizado com sucesso" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Erro interno no servidor' });
+    }
+};
 
 exports.login = login;
 exports.register = register;
