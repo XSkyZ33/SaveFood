@@ -59,7 +59,7 @@ const deleteRecompensa = async (req, res) => {
 const getRecompensasByUtilizador = async (req, res) => {
     const utilizadorId = req.params.id;
     try {
-        const utilizador = await Utilizadpor.findById(utilizadorId);
+        const utilizador = await Utilizador.findById(utilizadorId);
         if (!utilizador) {
             return res.status(404).json({ message: 'Utilizador não encontrado' });
         }

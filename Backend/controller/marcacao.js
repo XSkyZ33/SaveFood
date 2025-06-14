@@ -1,16 +1,11 @@
 const Marcacao = require('../models/marcacao');
+const Pratos = require('../models/pratos');
 
-// ajusta o caminho se for diferente
-const Pratos = require('../models/pratos');      // importa o model Pratos
-
+// Criar marcação
 const createMarcacao = async (req, res) => {
-  console.log('createMarcacao called with body:', req.body);
-  console.log('User ID:', req.user.id);
-
   try {
     const { data_marcacao, horario, prato } = req.body;
 
-    // Verifica se o prato existe
     const pratoEncontrado = await Pratos.findById(prato);
     if (!pratoEncontrado) {
       return res.status(404).json({ message: 'Prato não encontrado. Não foi possível criar a marcação.' });
@@ -24,98 +19,110 @@ const createMarcacao = async (req, res) => {
     });
 
     await novaMarcacao.save();
-
     res.status(201).json({ message: 'Marcação criada com sucesso', marcacao: novaMarcacao });
+
   } catch (error) {
     console.error('Erro ao criar marcação:', error);
     res.status(500).json({ message: 'Erro ao criar marcação', error });
   }
 };
 
+// Obter marcações (todas ou por data)
 const getMarcacoes = async (req, res) => {
-    try {
-        const marcacoes = await Marcacao.find()
-            .populate('userId', '-password')
-            .populate('prato');
-        res.status(200).json(marcacoes);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao obter marcações', error });
+  try {
+    const filtro = {};
+    if (req.query.data) {
+      filtro.data_marcacao = new Date(req.query.data);
     }
+
+    const marcacoes = await Marcacao.find(filtro)
+      .populate('userId', '-password')
+      .populate('prato');
+
+    if (!marcacoes.length) {
+      return res.status(404).json({ message: 'Nenhuma marcação encontrada' });
+    }
+
+    res.status(200).json(marcacoes);
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter marcações', error });
+  }
 };
 
+// Obter marcações do utilizador autenticado
 const getMarcacoesByUser = async (req, res) => {
-    const userId = req.user.id; // pega o id do token
+  try {
+    const marcacoes = await Marcacao.find({ userId: req.user.id })
+      .populate('prato');
 
-    try {
-        const marcacoes = await Marcacao.find({ userId })
-            .populate('prato');
-        res.status(200).json(marcacoes);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao obter marcações do utilizador', error });
-    }
+    res.status(200).json(marcacoes);
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter marcações do utilizador', error });
+  }
 };
 
-const getMarcacoesByDate = async (req, res) => {
-    const { date } = req.params;
-    try {
-        const marcacoes = await Marcacao.find({ data_marcacao: new Date(date) })
-            .populate('userId', '-password')
-            .populate('prato');
-        if (marcacoes.length === 0) {
-            return res.status(404).json({ message: 'Nenhuma marcação encontrada para esta data' });
-        }
-        res.status(200).json(marcacoes);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao obter marcações por data', error });
-    }
-}
-
-const updateEstadoMarcacao = async (req, res) => {
-    const id = req.params.id;
-    const { estado } = req.body;
-
-    try {
-        const marcacao = await Marcacao.findByIdAndUpdate(id, { estado }, { new: true });
-        if (!marcacao) {
-            return res.status(404).json({ message: 'Marcação não encontrada' });
-        }
-        res.status(200).json({ message: 'Estado atualizado', marcacao });
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar marcação', error });
-    }
-};
-
-const deleteMarcacao = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const result = await Marcacao.findByIdAndDelete(id);
-        if (!result) {
-            return res.status(404).json({ message: 'Marcação não encontrada' });
-        }
-        res.status(200).json({ message: 'Marcação eliminada com sucesso' });
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao eliminar marcação', error });
-    }
-};
-
+// Obter marcação por ID
 const getMarcacaoById = async (req, res) => {
-    const id = req.params.id;
-    try {
-        const marcacao = await Marcacao.findById(id)
-            .populate('userId', '-password')
-            .populate('prato');
-        if (!marcacao) {
-            return res.status(404).json({ message: 'Marcação não encontrada' });
-        }
-        res.status(200).json(marcacao);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao obter marcação', error });
+  const id = req.params.id;
+  try {
+    const marcacao = await Marcacao.findById(id)
+      .populate('userId', '-password')
+      .populate('prato');
+
+    if (!marcacao) {
+      return res.status(404).json({ message: 'Marcação não encontrada' });
     }
+
+    res.status(200).json(marcacao);
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao obter marcação', error });
+  }
 };
 
+// Atualizar estado da marcação
+const updateEstadoMarcacao = async (req, res) => {
+  const id = req.params.id;
+  const { estado } = req.body;
+
+  try {
+    const marcacao = await Marcacao.findByIdAndUpdate(id, { estado }, { new: true });
+
+    if (!marcacao) {
+      return res.status(404).json({ message: 'Marcação não encontrada' });
+    }
+
+    res.status(200).json({ message: 'Estado atualizado com sucesso', marcacao });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao atualizar marcação', error });
+  }
+};
+
+// Eliminar marcação
+const deleteMarcacao = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await Marcacao.findByIdAndDelete(id);
+
+    if (!result) {
+      return res.status(404).json({ message: 'Marcação não encontrada' });
+    }
+
+    res.status(200).json({ message: 'Marcação eliminada com sucesso' });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao eliminar marcação', error });
+  }
+};
+
+// Consumir marcação
 const consumirMarcacao = async (req, res) => {
   const userId = req.user.id;
-  const { marcacaoId } = req.body;
+  const marcacaoId = req.params.id;
 
   try {
     const marcacao = await Marcacao.findById(marcacaoId);
@@ -134,7 +141,6 @@ const consumirMarcacao = async (req, res) => {
 
     const agora = new Date();
     const dataMarcacao = new Date(marcacao.data_marcacao);
-
     const mesmoDia =
       agora.getFullYear() === dataMarcacao.getFullYear() &&
       agora.getMonth() === dataMarcacao.getMonth() &&
@@ -173,8 +179,8 @@ const consumirMarcacao = async (req, res) => {
 exports.createMarcacao = createMarcacao;
 exports.getMarcacoes = getMarcacoes;
 exports.getMarcacoesByUser = getMarcacoesByUser;
-exports.getMarcacoesByDate = getMarcacoesByDate;
+exports.getMarcacaoById = getMarcacaoById;
 exports.updateEstadoMarcacao = updateEstadoMarcacao;
 exports.deleteMarcacao = deleteMarcacao;
-exports.getMarcacaoById = getMarcacaoById;
 exports.consumirMarcacao = consumirMarcacao;
+

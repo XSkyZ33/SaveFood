@@ -2,12 +2,20 @@ const Estatistica = require('../models/estatistica');
 
 const getEstatisticas = async (req, res) => {
     try {
-        const estatisticas = await Estatistica.find().sort({ data: -1 });
+        const { tipo } = req.query;
+
+        const filtro = tipo ? { tipo_estatistica: tipo } : {};
+        const estatisticas = await Estatistica.find(filtro).sort({ data: -1 });
+
+        if (estatisticas.length === 0) {
+            return res.status(404).json({ message: 'Nenhuma estatística encontrada' });
+        }
+
         res.status(200).json(estatisticas);
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar estatísticas', error });
     }
-}
+};
 
 const getEstatisticasById = async (req, res) => {
     const id = req.params.id;
@@ -22,18 +30,6 @@ const getEstatisticasById = async (req, res) => {
     }
 }
 
-const getEstatisticasByTipo = async (req, res) => {
-    const tipo = req.body.tipo_estatistica;
-    try {
-        const estatisticas = await Estatistica.find({ tipo_estatistica: tipo }).sort({ data: -1 });
-        if (estatisticas.length === 0) {
-            return res.status(404).json({ message: 'Nenhuma estatística encontrada para este tipo' });
-        }
-        res.status(200).json(estatisticas);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar estatísticas por tipo', error });
-    }
-};
 
 const createEstatistica = async (req, res) => {
     const { tipo_estatistica, observacao, dados } = req.body;
@@ -69,7 +65,6 @@ const updateEstatistica = async (req, res) => {
 }
 
 exports.getEstatisticas = getEstatisticas;
-exports.getEstatisticasByTipo = getEstatisticasByTipo;
 exports.createEstatistica = createEstatistica;
 exports.updateEstatistica = updateEstatistica;
 exports.getEstatisticasById = getEstatisticasById;
