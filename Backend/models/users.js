@@ -43,7 +43,11 @@ const userSchema = new mongoose.Schema({
     notificacoes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Notificacao'
-    }]
+    }],
+    marcacoes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Marcacao'
+    }],
 })
 
 module.exports = mongoose.model('Users', userSchema, 'Users')

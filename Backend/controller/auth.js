@@ -126,6 +126,7 @@ const register = async (req, res) => {
                 pontos_bom_comportamento: 10,
                 recompensas: [],
                 notificacoes: [],
+                marcacoes: [],
                 createdAt: Date.now()
             });
 

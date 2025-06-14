@@ -19,6 +19,14 @@ const createMarcacao = async (req, res) => {
     });
 
     await novaMarcacao.save();
+
+    // Atualiza o usuário adicionando a marcação ao array `marcacoes`
+    await Users.findByIdAndUpdate(
+      req.user.id,
+      { $push: { marcacoes: novaMarcacao._id } },
+      { new: true }
+    );
+
     res.status(201).json({ message: 'Marcação criada com sucesso', marcacao: novaMarcacao });
 
   } catch (error) {
@@ -26,6 +34,7 @@ const createMarcacao = async (req, res) => {
     res.status(500).json({ message: 'Erro ao criar marcação', error });
   }
 };
+
 
 // Obter marcações (todas ou por data)
 const getMarcacoes = async (req, res) => {

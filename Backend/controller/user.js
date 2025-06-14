@@ -36,7 +36,8 @@ const getAuthenticatedUser = async (req, res) => {
         const user = await Users.findById(req.id)
             .select('-password')
             .populate('recompensas')
-            .populate('notificacoes'); 
+            .populate('notificacoes')
+            .populate('marcacoes'); 
         if (!user) {
             return res.status(404).json({ message: 'Utilizador não encontrado' });
         }
