@@ -30,6 +30,8 @@ router.post('/',
     controller.createMarcacao
 );
 
+router.post('/consumir', auth.validateUser, controller.consumirMarcacao);
+
 router.put('/:id/estado', auth.validateAdmin, [
     param('id').notEmpty().escape(),
     body('estado').isIn(['pedido', 'servido', 'cancelado', 'nao servido'])

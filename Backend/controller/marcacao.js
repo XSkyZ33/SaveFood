@@ -113,6 +113,63 @@ const getMarcacaoById = async (req, res) => {
     }
 };
 
+const consumirMarcacao = async (req, res) => {
+  const userId = req.user.id;
+  const { marcacaoId } = req.body;
+
+  try {
+    const marcacao = await Marcacao.findById(marcacaoId);
+
+    if (!marcacao) {
+      return res.status(404).json({ message: 'Marcação não encontrada' });
+    }
+
+    if (String(marcacao.userId) !== userId) {
+      return res.status(403).json({ message: 'Não autorizado a consumir esta marcação' });
+    }
+
+    if (marcacao.estado !== 'pedido') {
+      return res.status(400).json({ message: 'Esta refeição já foi consumida ou está indisponível' });
+    }
+
+    const agora = new Date();
+    const dataMarcacao = new Date(marcacao.data_marcacao);
+
+    const mesmoDia =
+      agora.getFullYear() === dataMarcacao.getFullYear() &&
+      agora.getMonth() === dataMarcacao.getMonth() &&
+      agora.getDate() === dataMarcacao.getDate();
+
+    if (!mesmoDia) {
+      return res.status(400).json({ message: 'Só é possível consumir no dia da marcação' });
+    }
+
+    const hora = agora.getHours();
+    const minuto = agora.getMinutes();
+    const horario = marcacao.horario.toLowerCase();
+
+    if (horario === 'almoco') {
+      if (hora < 12 || (hora === 14 && minuto > 0) || hora >= 14) {
+        return res.status(400).json({ message: 'Almoço só pode ser consumido entre 12:00 e 14:00' });
+      }
+    } else if (horario === 'jantar') {
+      if (hora < 19 || (hora === 21 && minuto > 0) || hora >= 21) {
+        return res.status(400).json({ message: 'Jantar só pode ser consumido entre 19:00 e 21:00' });
+      }
+    } else {
+      return res.status(400).json({ message: 'Horário de refeição inválido' });
+    }
+
+    marcacao.estado = 'servido';
+    await marcacao.save();
+
+    res.status(200).json({ message: 'Refeição consumida com sucesso', marcacao });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao consumir refeição', error });
+  }
+};
+
 exports.createMarcacao = createMarcacao;
 exports.getMarcacoes = getMarcacoes;
 exports.getMarcacoesByUser = getMarcacoesByUser;
@@ -120,3 +177,4 @@ exports.getMarcacoesByDate = getMarcacoesByDate;
 exports.updateEstadoMarcacao = updateEstadoMarcacao;
 exports.deleteMarcacao = deleteMarcacao;
 exports.getMarcacaoById = getMarcacaoById;
+exports.consumirMarcacao = consumirMarcacao;
