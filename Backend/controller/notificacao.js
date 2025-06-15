@@ -1,5 +1,6 @@
 const Notificacao = require('../models/notificacao');
 const User = require('../models/users');
+const mongoose = require('mongoose');
 
 // Notificações do usuário logado
 const getNotificacoes = async (req, res) => {
@@ -97,19 +98,16 @@ const deleteNotificacao = async (req, res) => {
 const getNotificacaoById = async (req, res) => {
     const { id } = req.params;
 
+    // Verifica se o ID é um ObjectId válido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'ID inválido' });
+    }
+
     try {
         const notificacao = await Notificacao.findById(id);
 
         if (!notificacao) {
             return res.status(404).json({ message: 'Notificação não encontrada' });
-        }
-
-        // Verifica se é o dono ou um admin
-        if (
-            req.user.role !== 'admin' &&
-            String(notificacao.userId) !== String(req.user.id)
-        ) {
-            return res.status(403).json({ message: 'Acesso não autorizado a esta notificação' });
         }
 
         res.status(200).json(notificacao);

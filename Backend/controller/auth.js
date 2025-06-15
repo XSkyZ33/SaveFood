@@ -21,10 +21,15 @@ function validateToken(req, res, next) {
         if (err) {
             return res.status(401).json({ message: 'Failed to authenticate token.' });
         }
-        req.id = decoded.user_id;
+
+        req.user = {
+            id: decoded.user_id,
+            type_user: decoded.type_user
+        };
         next();
     });
 }
+
 
 const validateUser = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -71,7 +76,6 @@ function validateAdmin(req, res, next) {
 }
 
 
-
 const login = async (req, res) => {
 
     try {
@@ -83,7 +87,11 @@ const login = async (req, res) => {
         let result = bcrypt.compareSync(req.body.password, user[0].password)
         if (result == false)
             return res.status(401).json({ message: 'Invalid Credentials' })
-        let token = jwt.sign({ user_id: user[0]._id }, process.env.SECRET, { expiresIn: '1h' })
+        let token = jwt.sign(
+            { user_id: user[0]._id, type_user: user[0].type_user },
+            process.env.SECRET,
+            { expiresIn: '1h' }
+        );
         res.status(200).json({ token: token })
 
     } catch (err) {
@@ -150,21 +158,23 @@ const register = async (req, res) => {
 }
 
 const UpdateUser = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // ID do user a ser editado
     const { name, email, password, avatar } = req.body;
 
     try {
-        const db_user = await Users.findById(req.id).exec();
-        const user = await Users.findById(id).exec();
+        const db_user = await Users.findById(req.user.id); // quem está logado
+        const user = await Users.findById(id); // quem vai ser editado
 
         if (!user) {
             return res.status(404).json({ message: "Usuário não encontrado" });
         }
 
-        if (db_user._id.toString() !== user._id.toString() && db_user.type_user !== 'admin') {
-            return res.status(401).json({ message: 'Unauthorized.' });
+        // ✅ Só o próprio user ou um admin pode editar
+        if (req.user.id !== user._id.toString() && db_user.type_user !== 'admin') {
+            return res.status(401).json({ message: 'Não autorizado a atualizar este perfil.' });
         }
 
+        // Atualiza os campos
         if (name) user.name = name;
         if (email) user.email = email;
         if (password) {
@@ -179,11 +189,9 @@ const UpdateUser = async (req, res) => {
                 user.avatar = imagem.secure_url;
                 user.cloudinary_id = imagem.public_id;
             } catch (error) {
-                console.error("Erro no upload da imagem:", error);
                 return res.status(500).json({ message: "Erro ao fazer upload da imagem" });
             }
         } else if (avatar === null || avatar === '') {
-            // Se o campo avatar for enviado vazio ou null, zera o avatar e cloudinary_id
             user.avatar = null;
             user.cloudinary_id = null;
         }

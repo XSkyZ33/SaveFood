@@ -12,15 +12,26 @@ const validateRequest = (req, res, next) => {
     next();
 };
 
-// Usuário logado vê suas notificações
-router.get('/user', auth.validateUser, controller.getNotificacoes);
+// 🟢 User vê suas próprias notificações
+router.get('/', auth.validateUser, controller.getNotificacoes);
 
-// Admin vê todas notificações
-router.get('/admin', auth.validateAdmin, controller.getAllNotificacoes);
+// 🟢 Admin vê todas as notificações
+router.get('/all', auth.validateAdmin, controller.getAllNotificacoes);
 
-// Admin cria notificação
+// 🔍 Admin vê uma notificação específica
+router.get(
+    '/:id',
+    auth.validateAdmin,
+    [
+        param('id').notEmpty().withMessage('ID é obrigatório').escape()
+    ],
+    validateRequest,
+    controller.getNotificacaoById
+);
+
+// 🔵 Admin cria notificação
 router.post(
-    '/admin',
+    '/',
     auth.validateAdmin,
     [
         body('userId').notEmpty().withMessage('userId é obrigatório'),
@@ -31,9 +42,9 @@ router.post(
     controller.createNotificacao
 );
 
-// Admin atualiza notificação
+// 🟡 Admin atualiza notificação
 router.put(
-    '/admin/:id',
+    '/:id',
     auth.validateAdmin,
     [
         param('id').notEmpty().withMessage('ID é obrigatório').escape(),
@@ -44,26 +55,15 @@ router.put(
     controller.updateNotificacao
 );
 
-// Admin deleta notificação
+// 🔴 Admin deleta notificação
 router.delete(
-    '/admin/:id',
+    '/:id',
     auth.validateAdmin,
     [
         param('id').notEmpty().withMessage('ID é obrigatório').escape()
     ],
     validateRequest,
     controller.deleteNotificacao
-);
-
-// Pegar notificação pelo ID - usuário ou admin
-router.get(
-    '/:id',
-    auth.validateUser,
-    [
-        param('id').notEmpty().withMessage('ID é obrigatório').escape()
-    ],
-    validateRequest,
-    controller.getNotificacaoById
 );
 
 module.exports = router;

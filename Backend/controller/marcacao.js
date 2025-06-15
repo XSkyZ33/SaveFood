@@ -1,5 +1,6 @@
 const Marcacao = require('../models/marcacao');
 const Pratos = require('../models/pratos');
+const Users = require('../models/users');
 
 // Criar marcação
 const createMarcacao = async (req, res) => {

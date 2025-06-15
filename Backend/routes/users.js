@@ -35,14 +35,15 @@ router.post('/register', multerUploads, [
     body('password').notEmpty().escape(),
 ], validateRequest, auth.register);
 
-router.put('/:id', auth.validateToken, multerUploads, [
+router.patch('/:id', auth.validateToken, auth.validateUser, multerUploads, [
     param('id').notEmpty().escape(),
-    body('nome').notEmpty().escape(),
-    body('email').notEmpty().isEmail().normalizeEmail(),
-    body('avatar').optional().isURL(),
-], validateRequest, auth.UpdateUser);
+    body('name').optional().notEmpty().escape(),
+    body('email').optional().isEmail().normalizeEmail(),
+    body('avatar').optional().isURL()
+], validateRequest, auth.UpdateUser
+);
 
-router.delete('/:id', auth.validateAdmin, [
+router.delete('/:id', auth.validateToken, auth.validateAdmin, [
     param('id').notEmpty().escape(),
 ], validateRequest, controller.deleteUser);
 
