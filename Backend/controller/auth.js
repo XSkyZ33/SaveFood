@@ -63,7 +63,7 @@ function validateAdmin(req, res, next) {
         }
         let user = await Users.findById(decoded.user_id).exec();
         if (user.type_user != "admin") {
-            return res.status(401).json({ message: 'Unauthorized.' });
+            return res.status(403).json({ message: 'Forbidden.' });
         }
         req.id = decoded.user_id;
         next();
@@ -134,7 +134,7 @@ const register = async (req, res) => {
                 Users.findOne({ email: req.body.email }).then(function (user) {
                     if (user === null) {
                         UsersToCreate.save()
-                        res.status(200).json({ message: "Registered User" })
+                        res.status(201).json({ message: "Registered User" })
                     }
                     else {
                         res.status(406).json({ message: "Duplicated User" });

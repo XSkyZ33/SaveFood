@@ -30,4 +30,16 @@ router.post('/', auth.validateAdmin, [
     body('dados.*').isObject().withMessage("Cada elemento de dados deve ser um objeto"),
 ], validateRequest, controller.createEstatistica);
 
+router.put('/:id', auth.validateAdmin, [
+    param('id').notEmpty().escape(),
+    body('tipo_estatistica').notEmpty().escape(),
+    body('observacao').notEmpty().escape(),
+    body('dados').isArray({ min: 1 }).withMessage("Dados deve ser um array com pelo menos um elemento"),
+    body('dados.*').isObject().withMessage("Cada elemento de dados deve ser um objeto"),
+], validateRequest, controller.updateEstatistica);
+
+router.delete('/:id', auth.validateAdmin, [
+    param('id').notEmpty().escape(),
+], validateRequest, controller.deleteEstatistica);
+
 module.exports = router;

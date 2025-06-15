@@ -64,7 +64,21 @@ const updateEstatistica = async (req, res) => {
     }
 }
 
+const deleteEstatistica = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const estatistica = await Estatistica.findByIdAndDelete(id);
+        if (!estatistica) {
+            return res.status(404).json({ message: 'Estatística não encontrada' });
+        }
+        res.status(200).json({ message: 'Estatística deletada com sucesso' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao deletar estatística', error });
+    }
+}
+
 exports.getEstatisticas = getEstatisticas;
 exports.createEstatistica = createEstatistica;
 exports.updateEstatistica = updateEstatistica;
 exports.getEstatisticasById = getEstatisticasById;
+exports.deleteEstatistica = deleteEstatistica;

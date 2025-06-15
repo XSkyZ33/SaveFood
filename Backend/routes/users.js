@@ -16,11 +16,11 @@ const validateRequest = (req, res, next) => {
     next();
 };
 
-router.get('/', controller.getUser);
+router.get('/', auth.validateAdmin, controller.getUser);
 
 router.get('/me', auth.validateToken, controller.getAuthenticatedUser);
 
-router.get('/:id', [
+router.get('/:id', auth.validateAdmin, [
     param('id').notEmpty().escape(),
 ], validateRequest, controller.getUserById);
 
@@ -40,7 +40,7 @@ router.put('/:id', auth.validateToken, multerUploads, [
     body('nome').notEmpty().escape(),
     body('email').notEmpty().isEmail().normalizeEmail(),
     body('avatar').optional().isURL(),
-], validateRequest, auth.updateUser);
+], validateRequest, auth.UpdateUser);
 
 router.delete('/:id', auth.validateAdmin, [
     param('id').notEmpty().escape(),

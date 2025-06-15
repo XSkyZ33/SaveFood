@@ -17,10 +17,10 @@ router.get('/', auth.validateAdmin, [
 ], validateRequest, controller.getMarcacoes);
 
 // User: lista as suas próprias
-router.get('/mine', auth.validateUser, controller.getMarcacoesByUser);
+router.get('/me', auth.validateUser, controller.getMarcacoesByUser);
 
 // Get por ID
-router.get('/:id', auth.validateUser, [
+router.get('/:id', auth.validateAdmin, [
     param('id').isMongoId()
 ], validateRequest, controller.getMarcacaoById);
 

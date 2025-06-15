@@ -3,12 +3,19 @@ const Utilizador = require('../models/users');
 
 const getRecompensas = async (req, res) => {
     try {
-        const recompensas = await Recompensa.find().sort({ createdAt: -1 });
+        const filtro = {};
+
+        if (req.query.tipo_recompensa) {
+            filtro.tipo_recompensa = req.query.tipo_recompensa;
+        }
+
+        const recompensas = await Recompensa.find(filtro).sort({ createdAt: -1 });
         res.status(200).json(recompensas);
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar recompensas', error });
     }
-}
+};
+
 
 const createRecompensa = async (req, res) => {
     const { objetivo, descricao, tipo_recompensa } = req.body;
@@ -67,19 +74,6 @@ const getRecompensasByUtilizador = async (req, res) => {
         res.status(200).json(recompensas);
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar recompensas do utilizador', error });
-    }
-}
-
-const getRecompensasByTipo = async (req, res) => {
-    const tipo = req.body.tipo_recompensa;
-    try {
-        const recompensas = await Recompensa.find({ tipo_recompensa: tipo }).sort({ createdAt: -1 });
-        if (recompensas.length === 0) {
-            return res.status(404).json({ message: 'Nenhuma recompensa encontrada para este tipo' });
-        }
-        res.status(200).json(recompensas);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar recompensas por tipo', error });
     }
 }
 
@@ -148,6 +142,5 @@ exports.createRecompensa = createRecompensa;
 exports.updateRecompensa = updateRecompensa;
 exports.deleteRecompensa = deleteRecompensa;
 exports.getRecompensasByUtilizador = getRecompensasByUtilizador;
-exports.getRecompensasByTipo = getRecompensasByTipo;
 exports.getRecompensaById = getRecompensaById;
 exports.resgatarRecompensa = resgatarRecompensa;

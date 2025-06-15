@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { validationResult, body, param } = require('express-validator');
+const { validationResult, body, param, query } = require('express-validator');
 
 const controller = require('../controller/recompensa.js');
 const auth = require('../controller/auth.js');
@@ -11,17 +11,17 @@ const validateRequest = (req, res, next) => {
     next();
 };
 
-router.get('/', controller.getRecompensas);
+router.get('/', [
+    query('tipo_recompensa')
+        .optional()
+        .isIn(['voucher', 'codigo_desconto', 'produto'])
+        .withMessage('Tipo de recompensa inválido'),],
+    validateRequest, controller.getRecompensas
+);
 
 router.get('/:id', [
     param('id').notEmpty().withMessage("ID obrigatório").isMongoId().withMessage("ID inválido"),
 ], validateRequest, controller.getRecompensaById);
-
-router.get('/tipo/:tipo', [
-    param('tipo')
-        .notEmpty().withMessage("O tipo é obrigatório")
-        .isIn(['voucher', 'codigo_desconto', 'produto']).withMessage("Tipo inválido"),
-], validateRequest, controller.getRecompensasByTipo);
 
 router.post('/resgatar', auth.validateUser, [
     body('recompensaId')

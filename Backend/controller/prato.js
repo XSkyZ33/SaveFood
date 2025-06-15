@@ -10,7 +10,11 @@ cloudinary.config({
 // Buscar todos os pratos
 const getPratos = async (req, res) => {
     try {
-        const pratos = await prato.find().sort({ nome: 1 });
+        const filtro = {};
+        if (req.query.tipo) {
+            filtro.tipo_prato = req.query.tipo;
+        }
+        const pratos = await prato.find(filtro).sort({ nome: 1 });
         res.status(200).json(pratos);
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar pratos', error });
@@ -112,23 +116,9 @@ const deletePrato = async (req, res) => {
     }
 };
 
-// Buscar pratos por tipo
-const getPratosByTipo = async (req, res) => {
-    const tipo = req.params.tipo;
-    try {
-        const pratos = await prato.find({ tipo_prato: tipo }).sort({ nome: 1 });
-        if (pratos.length === 0) {
-            return res.status(404).json({ message: 'Nenhum prato encontrado para este tipo' });
-        }
-        res.status(200).json(pratos);
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar pratos por tipo', error });
-    }
-};
-
 exports.getPratos = getPratos;
 exports.getPratoById = getPratoById;
 exports.createPrato = createPrato;
 exports.updatePrato = updatePrato;
 exports.deletePrato = deletePrato;
-exports.getPratosByTipo = getPratosByTipo;
+

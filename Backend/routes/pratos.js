@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { validationResult, body, param } = require('express-validator');
+const { validationResult, body, param, query } = require('express-validator');
 
 const controller = require('../controller/prato');
 const auth = require('../controller/auth');
@@ -16,15 +16,12 @@ const validateRequest = (req, res, next) => {
     next();
 };
 
-// Obter todos os pratos
-router.get('/', controller.getPratos);
-
-// Buscar pratos por tipo (antes do :id para evitar conflito)
-router.get('/tipo/:tipo',
-    [param('tipo').notEmpty().escape()],
-    validateRequest,
-    controller.getPratosByTipo
-);
+router.get('/', [
+    query('tipo')
+        .optional()
+        .isIn(['Dieta', 'Carne', 'Peixe', 'Vegetariano', 'Outro'])
+        .withMessage('Tipo de prato inválido'),
+],validateRequest, controller.getPratos);
 
 // Buscar prato por ID
 router.get('/:id',
