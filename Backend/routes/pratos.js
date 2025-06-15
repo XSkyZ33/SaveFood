@@ -44,7 +44,7 @@ router.post('/',
 );
 
 // Atualizar prato (admin)
-router.put('/:id',
+router.patch('/:id',
     multerUploads,
     auth.validateAdmin,
     [

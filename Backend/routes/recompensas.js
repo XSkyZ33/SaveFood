@@ -37,7 +37,7 @@ router.post('/', auth.validateAdmin, [
         .withMessage("Tipo de recompensa inválido")
 ], validateRequest, controller.createRecompensa);
 
-router.put('/:id', auth.validateAdmin, [
+router.patch('/:id', auth.validateAdmin, [
     param('id').notEmpty().isMongoId().withMessage("ID inválido"),
     body('objetivo').optional().isInt({ min: 1 }),
     body('descricao').optional().escape(),

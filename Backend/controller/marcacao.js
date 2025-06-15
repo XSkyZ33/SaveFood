@@ -111,6 +111,41 @@ const updateEstadoMarcacao = async (req, res) => {
   }
 };
 
+const updateMarcacao = async (req, res) => {
+  const id = req.params.id;
+  const { data_marcacao, horario, prato } = req.body;
+
+  try {
+    const updateFields = {};
+    
+    if (data_marcacao) updateFields.data_marcacao = data_marcacao;
+    if (horario) updateFields.horario = horario;
+
+    if (prato) {
+      const pratoEncontrado = await Pratos.findById(prato);
+      if (!pratoEncontrado) {
+        return res.status(404).json({ message: 'Prato não encontrado. Não foi possível atualizar a marcação.' });
+      }
+      updateFields.prato = prato;
+    }
+
+    const marcacaoAtualizada = await Marcacao.findByIdAndUpdate(
+      id,
+      updateFields,
+      { new: true }
+    ).populate('userId', '-password').populate('prato');
+
+    if (!marcacaoAtualizada) {
+      return res.status(404).json({ message: 'Marcação não encontrada' });
+    }
+
+    res.status(200).json({ message: 'Marcação atualizada com sucesso', marcacao: marcacaoAtualizada });
+  } catch (error) {
+    console.error('Erro ao atualizar marcação:', error);
+    res.status(500).json({ message: 'Erro ao atualizar marcação', error });
+  }
+};
+
 // Eliminar marcação
 const deleteMarcacao = async (req, res) => {
   const id = req.params.id;
@@ -193,4 +228,5 @@ exports.getMarcacaoById = getMarcacaoById;
 exports.updateEstadoMarcacao = updateEstadoMarcacao;
 exports.deleteMarcacao = deleteMarcacao;
 exports.consumirMarcacao = consumirMarcacao;
+exports.updateMarcacao = updateMarcacao;
 
