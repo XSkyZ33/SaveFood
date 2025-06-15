@@ -92,32 +92,13 @@ const getMarcacaoById = async (req, res) => {
   }
 };
 
-// Atualizar estado da marcação
-const updateEstadoMarcacao = async (req, res) => {
-  const id = req.params.id;
-  const { estado } = req.body;
-
-  try {
-    const marcacao = await Marcacao.findByIdAndUpdate(id, { estado }, { new: true });
-
-    if (!marcacao) {
-      return res.status(404).json({ message: 'Marcação não encontrada' });
-    }
-
-    res.status(200).json({ message: 'Estado atualizado com sucesso', marcacao });
-
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao atualizar marcação', error });
-  }
-};
-
 const updateMarcacao = async (req, res) => {
   const id = req.params.id;
-  const { data_marcacao, horario, prato } = req.body;
+  const { data_marcacao, horario, prato, estado } = req.body;
 
   try {
     const updateFields = {};
-    
+
     if (data_marcacao) updateFields.data_marcacao = data_marcacao;
     if (horario) updateFields.horario = horario;
 
@@ -129,11 +110,17 @@ const updateMarcacao = async (req, res) => {
       updateFields.prato = prato;
     }
 
+    if (estado) {
+      updateFields.estado = estado;
+    }
+
     const marcacaoAtualizada = await Marcacao.findByIdAndUpdate(
       id,
       updateFields,
       { new: true }
-    ).populate('userId', '-password').populate('prato');
+    )
+    .populate('userId', '-password')
+    .populate('prato');
 
     if (!marcacaoAtualizada) {
       return res.status(404).json({ message: 'Marcação não encontrada' });
@@ -204,7 +191,7 @@ const consumirMarcacao = async (req, res) => {
         return res.status(400).json({ message: 'Almoço só pode ser consumido entre 12:00 e 14:00' });
       }
     } else if (horario === 'jantar') {
-      if (hora < 19 || (hora === 21 && minuto > 0) || hora >= 21) {
+      if (hora < 19 || (hora === 21 && minuto > 0) || hora >= 23) {
         return res.status(400).json({ message: 'Jantar só pode ser consumido entre 19:00 e 21:00' });
       }
     } else {
@@ -225,7 +212,6 @@ exports.createMarcacao = createMarcacao;
 exports.getMarcacoes = getMarcacoes;
 exports.getMarcacoesByUser = getMarcacoesByUser;
 exports.getMarcacaoById = getMarcacaoById;
-exports.updateEstadoMarcacao = updateEstadoMarcacao;
 exports.deleteMarcacao = deleteMarcacao;
 exports.consumirMarcacao = consumirMarcacao;
 exports.updateMarcacao = updateMarcacao;

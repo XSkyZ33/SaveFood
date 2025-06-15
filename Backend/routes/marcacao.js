@@ -36,11 +36,13 @@ router.post('/:id/consumir', auth.validateUser, [
     param('id').isMongoId()
 ], validateRequest, controller.consumirMarcacao);
 
-// Atualizar estado
-router.patch('/:id/estado', auth.validateAdmin, [
+router.patch('/:id', auth.validateAdmin, [
     param('id').isMongoId(),
-    body('estado').isIn(['pedido', 'servido', 'cancelado', 'nao servido'])
-], validateRequest, controller.updateEstadoMarcacao);
+    body('data_marcacao').optional().isISO8601(),
+    body('horario').optional().isIn(['Almoco', 'Jantar']),
+    body('prato').optional().isMongoId(),
+    body('estado').optional().isIn(['pedido', 'servido', 'cancelado', 'nao servido']),
+], validateRequest, controller.updateMarcacao);
 
 // Eliminar
 router.delete('/:id', auth.validateAdmin, [

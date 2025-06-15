@@ -12,13 +12,13 @@ const validateRequest = (req, res, next) => {
     next();
 };
 
-// 🟢 User vê suas próprias notificações
+
 router.get('/', auth.validateUser, controller.getNotificacoes);
 
-// 🟢 Admin vê todas as notificações
+
 router.get('/all', auth.validateAdmin, controller.getAllNotificacoes);
 
-// 🔍 Admin vê uma notificação específica
+
 router.get(
     '/:id',
     auth.validateAdmin,
@@ -29,7 +29,7 @@ router.get(
     controller.getNotificacaoById
 );
 
-// 🔵 Admin cria notificação
+
 router.post(
     '/',
     auth.validateAdmin,
@@ -42,8 +42,8 @@ router.post(
     controller.createNotificacao
 );
 
-// 🟡 Admin atualiza notificação
-router.put(
+
+router.patch(
     '/:id',
     auth.validateAdmin,
     [
@@ -55,7 +55,7 @@ router.put(
     controller.updateNotificacao
 );
 
-// 🔴 Admin deleta notificação
+
 router.delete(
     '/:id',
     auth.validateAdmin,

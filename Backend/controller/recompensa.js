@@ -33,22 +33,28 @@ const createRecompensa = async (req, res) => {
 }
 
 const updateRecompensa = async (req, res) => {
-    const id = req.params.id;
-    const { objetivo, descricao, tipo_recompensa } = req.body;
-    try {
-        const recompensa = await Recompensa.findByIdAndUpdate(id, {
-            objetivo,
-            descricao,
-            tipo_recompensa
-        }, { new: true });
-    } catch (error) {
-        res.status(500).json({ message: 'Erro ao atualizar recompensa', error });
-    }
+  const id = req.params.id;
+  const { objetivo, descricao, tipo_recompensa } = req.body;
+
+  try {
+    const updateFields = {};
+    if (objetivo !== undefined) updateFields.objetivo = objetivo;
+    if (descricao !== undefined) updateFields.descricao = descricao;
+    if (tipo_recompensa !== undefined) updateFields.tipo_recompensa = tipo_recompensa;
+
+    const recompensa = await Recompensa.findByIdAndUpdate(id, updateFields, { new: true });
+
     if (!recompensa) {
-        return res.status(404).json({ message: 'Recompensa não encontrada' });
+      return res.status(404).json({ message: 'Recompensa não encontrada' });
     }
+
     res.status(200).json({ message: 'Recompensa atualizada com sucesso', recompensa });
+  } catch (error) {
+    console.error('Erro ao atualizar recompensa:', error);
+    res.status(500).json({ message: 'Erro ao atualizar recompensa', error });
+  }
 }
+
 
 const deleteRecompensa = async (req, res) => {
     const id = req.params.id;
