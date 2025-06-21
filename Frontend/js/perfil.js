@@ -131,9 +131,6 @@ function renderMealHistory(marcacoes, pratosMap) {
       <td class="px-6 py-4 whitespace-nowrap">
         <span class="capitalize">${m.estado}</span>
       </td>
-      <td class="px-6 py-4 text-sm font-medium">
-        <button class="text-blue-600 hover:text-blue-900">Detalhes</button>
-      </td>
     `;
 
     tbody.appendChild(row);
