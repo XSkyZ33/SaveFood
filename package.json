@@ -12,16 +12,22 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "jest": "^30.0.2",
     "jsonwebtoken": "^9.0.2",
+    "mockingoose": "^2.16.2",
+    "mongodb-memory-server": "^10.1.4",
     "mongoose": "^8.15.0",
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
+    "node-mocks-http": "^1.17.2",
     "nodemon": "^3.1.10",
+    "selenium-webdriver": "^4.33.0",
     "sequelize": "^6.37.7",
     "url": "^0.11.4"
   },
   "scripts": {
     "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "test": "jest"
   }
 }
