@@ -119,8 +119,8 @@ const updateMarcacao = async (req, res) => {
       updateFields,
       { new: true }
     )
-    .populate('userId', '-password')
-    .populate('prato');
+      .populate('userId', '-password')
+      .populate('prato');
 
     if (!marcacaoAtualizada) {
       return res.status(404).json({ message: 'Marcação não encontrada' });
@@ -191,7 +191,7 @@ const consumirMarcacao = async (req, res) => {
         return res.status(400).json({ message: 'Almoço só pode ser consumido entre 12:00 e 14:00' });
       }
     } else if (horario === 'jantar') {
-      if (hora < 19 || (hora === 21 && minuto > 0) || hora >= 23) {
+      if (hora < 19 || (hora === 21 && minuto > 0) || hora >= 21) {
         return res.status(400).json({ message: 'Jantar só pode ser consumido entre 19:00 e 21:00' });
       }
     } else {

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>graficos</title>
+  <title>Agenda de Refeições</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-<link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="../styles/style.css" />
 </head>
 
 <body>
 
-  <nav class="glass-card mt-4  py-4 px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  <nav class="glass-card mt-4 py-4 px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <div class="bg-emerald-500 text-white p-2 rounded-xl mr-3">
@@ -22,80 +22,70 @@
       </div>
     </div>
 
-  <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
-    <a href="Homepage.html" class="hover:text-emerald-600 transition">Início</a>
-    <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
-    <a href="schedule.html" class="text-emerald-600 font-semibold">Agenda de Refeições</a>
-    <a href="dashboard.html" class="hover:text-emerald-600 transition">Premios</a>
-    <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
-    <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
-  </div>
-  <div class="flex justify-center md:justify-end">
-    <a href="login.html" class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
-      Acessar Conta
-    </a>
-  </div>
-</nav>
+    <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+      <a href="Homepage.html" class="hover:text-emerald-600 transition">Início</a>
+      <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
+      <a href="schedule.html" class="text-emerald-600 font-semibold">Agenda de Refeições</a>
+      <a href="dashboard.html" class="hover:text-emerald-600 transition">Prêmios</a>
+      <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
+      <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
+    </div>
+    <div class="flex justify-center md:justify-end">
+      <a href="login.html"
+        class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+        Acessar Conta
+      </a>
+    </div>
+  </nav>
 
+  <section class="max-w-7xl mx-auto mt-8 px-4">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Agenda de Refeições</h1>
 
-<section class="max-w-7xl mx-auto mt-8 px-4">
-  <h2 class="text-2xl font-bold mb-4 ">Agenda Semanal de Refeições (so vai aparecer as refeições compradas pelo estudante)</h2>
-  <div class="grid grid-cols-8 border-t border-l text-center text-sm font-semibold">
-    <div class="border-b border-r py-2 bg-gray-200"></div>
-    <div class="border-b border-r py-2 bg-gray-200">Segunda</div>
-    <div class="border-b border-r py-2 bg-gray-200">Terça</div>
-    <div class="border-b border-r py-2 bg-gray-200">Quarta</div>
-    <div class="border-b border-r py-2 bg-gray-200">Quinta</div>
-    <div class="border-b border-r py-2 bg-gray-200">Sexta</div>
-    <div class="border-b border-r py-2 bg-gray-200">Sábado</div>
-    <div class="border-b border-r py-2 bg-gray-200">Domingo</div>
-  </div>
-
-  <div class="grid grid-cols-8 border-l border-t text-sm relative calendar-grid">
-
-    <div class="border-r">
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">08:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">09:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">10:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">11:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">12:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">13:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">14:00</div>
-      <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">15:00</div>
+    <!-- Navegação de semana -->
+    <div class="flex items-center justify-between mt-6 mb-2">
+      <button id="btn-prev-week" class="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600">
+        ← Semana Anterior
+      </button>
+      <span id="week-label" class="font-semibold text-lg text-gray-700"></span>
+      <button id="btn-next-week" class="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600">
+        Próxima Semana →
+      </button>
     </div>
 
-    
-    <div class="col-span-7 grid grid-cols-7 relative">
-     
-      <div class="relative">
-        <div class="meal-block left-1 right-1 top-[128px] h-[128px] bg-red-500">
-          <div class="font-bold">Frango Grelhado</div>
-          <div class="text-xs">10:00 - 12:00</div>
-        </div>
-        <div class="meal-block left-1 right-1 top-[384px] h-[64px] bg-green-500">
-          <div class="font-bold">Lasanha Veg</div>
-          <div class="text-xs">14:00 - 15:00</div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="meal-block left-1 right-1 top-[192px] h-[128px] bg-blue-500">
-          <div class="font-bold">Salmão Assado</div>
-          <div class="text-xs">11:00 - 13:00</div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="meal-block left-1 right-1 top-[128px] h-[128px] bg-yellow-500">
-          <div class="font-bold">Wrap Vegan</div>
-          <div class="text-xs">10:00 - 12:00</div>
-        </div>
-      </div>
-      <div class="relative"></div>
-      <div class="relative"></div>
-      <div class="relative"></div>
-      <div class="relative"></div>
+    <div id="header-days" class="grid grid-cols-8 border-t border-l text-center text-sm font-semibold">
+      <div class="border-b border-r py-2 bg-gray-200"></div>
+      <!-- Dias e datas vão aqui dinamicamente -->
     </div>
-  </div>
-</section>
 
+    <div class="grid grid-cols-8 border-l border-t text-sm relative calendar-grid" style="height: 512px;">
+      <div class="border-r">
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">08:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">10:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">12:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">14:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">16:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">18:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">20:00</div>
+        <div class="calendar-hour border-b h-16 text-right pr-2 pt-1">22:00</div>
+      </div>
+
+      <div class="col-span-7 grid grid-cols-7 relative">
+        <div class="relative"></div>
+        <div class="relative"></div>
+        <div class="relative"></div>
+        <div class="relative"></div>
+        <div class="relative"></div>
+        <div class="relative"></div>
+        <div class="relative"></div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="../js/schedule.js"></script>
+  <script type="module">
+    import { updateLoginUI } from '../js/authUtils.js';
+    updateLoginUI();
+  </script>
 </body>
+
 </html>

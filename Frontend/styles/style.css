@@ -179,13 +179,18 @@ a {
 
 .meal-block {
   position: absolute;
-  background-color: #34d399;
+  background-color: #34d399; /* Pode mudar conforme o tipo de prato pelo JS */
   color: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
   overflow: hidden;
+  left: 0.25rem;  /* Pequeno espaçamento da esquerda */
+  right: 0.25rem; /* Pequeno espaçamento da direita */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
 }
+
 .calendar-hour {
   height: 4rem;
 }

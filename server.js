@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
@@ -15,6 +16,11 @@ db.once('open', () => {
 });
 
 app.use(express.json());
+
+app.use(cors({
+  origin: 'http://127.0.0.1:5500'  // ou 'http://localhost:5500'
+}));
+
 
 const usersRouter = require('./Backend/routes/users');
 const marcacoesRouter = require('./Backend/routes/marcacao');
