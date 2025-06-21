@@ -35,6 +35,8 @@ export async function updateLoginUI() {
       return;
     }
 
+    localStorage.removeItem("avatar");
+
     let avatarUrl = localStorage.getItem("avatar") || "https://www.gravatar.com/avatar/?d=mp&f=y";
 
     if (avatarUrl === "https://www.gravatar.com/avatar/?d=mp&f=y") {
