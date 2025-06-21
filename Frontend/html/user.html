@@ -12,27 +12,29 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-
-  <nav class="glass-card mt-4 py-4 px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  <nav class="glass-card mt-4  py-4 px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
     <div class="flex items-center justify-between">
       <div class="flex items-center">
-        <div class="bg-emerald-500 text-white p-2 rounded-xl mr-3">
+        <div class="icon-bg-emerald">
           <i class="fas fa-utensils text-xl"></i>
         </div>
-        <span class="text-xl font-bold text-gray-800">Save<span class="text-emerald-600">Food</span></span>
+        <span class="logo-text text-xl font-bold">
+          Save<span class="text-emerald-600">Food</span>
+        </span>
       </div>
     </div>
-    <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
-      <a href="Homepage.html" class="hover:text-emerald-600 transition">Início</a>
-      <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
-      <a href="schedule.html" class="hover:text-emerald-600 transition">Agenda de Refeições</a>
-      <a href="dashboard.html" class="hover:text-emerald-600 transition">Prêmios</a>
-      <a href="graficos.html" class="hover:text-emerald-600 transition">Relatórios</a>
-      <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
+
+    <div class="nav-links flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
+      <a href="Homepage.html" class="nav-link">Início</a>
+      <a href="refeicoes.html" class="nav-link">Marcar Refeições</a>
+      <a href="schedule.html" class="nav-link">Agenda de Refeições</a>
+      <a href="dashboard.html" class="nav-link">Prémios</a>
+      <a href="graficos.html" class="nav-link">Relatórios</a>
+      <a href="ajuda.html" class="nav-link">Ajuda</a>
     </div>
+
     <div class="flex justify-center md:justify-end">
-      <a href="login.html"
-        class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+      <a href="Login.html" class="btn-access">
         Acessar Conta
       </a>
     </div>
@@ -97,9 +99,13 @@
       </div>
     </div>
   </section>
-
-  <script src="../js/perfil.js"></script>
-
 </body>
+
+<script src="../js/perfil.js"></script>
+<script type="module">
+  import { updateLoginUI } from '../js/authUtils.js';
+  updateLoginUI();
+</script>
+
 
 </html>
