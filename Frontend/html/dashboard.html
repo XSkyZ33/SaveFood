@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Prémios | SaveFood</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-<link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../styles/style.css" />
 </head>
+
 <body>
   <nav class="glass-card mt-4 py-4 px-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
     <div class="flex items-center">
@@ -17,7 +19,7 @@
       <span class="text-xl font-bold text-gray-800">Save<span class="text-emerald-600">Food</span></span>
     </div>
     <div class="flex flex-wrap justify-center gap-6 text-gray-700 font-medium">
-      <a href="/Homepage.html" class="hover:text-emerald-600 transition">Início</a>
+      <a href="Homepage.html" class="hover:text-emerald-600 transition">Início</a>
       <a href="refeicoes.html" class="hover:text-emerald-600 transition">Marcar Refeições</a>
       <a href="schedule.html" class="hover:text-emerald-600 transition">Agenda</a>
       <a href="dashboard.html" class="hover:text-emerald-600 transition">Prémios</a>
@@ -25,7 +27,8 @@
       <a href="ajuda.html" class="hover:text-emerald-600 transition">Ajuda</a>
     </div>
     <div class="flex justify-center md:justify-end">
-      <a href="login.html" class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
+      <a href="login.html"
+        class="border border-emerald-500 text-emerald-600 py-2 px-6 rounded-full font-medium hover:bg-emerald-500 hover:text-white transition">
         Aceder à Conta
       </a>
     </div>
@@ -40,19 +43,11 @@
     </div>
 
     <div class="glass-card p-6 mb-8">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">O Teu Histórico</h2>
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">Os Meus Pontos</h2>
       <div class="grid grid-cols-1 gap-6">
         <div>
-          <p class="text-sm text-gray-600 mb-1">Desperdício evitado</p>
-          <p class="text-3xl font-bold text-blue-600">4,9 kg</p>
-        </div>
-      </div>
-      <div class="bg-emerald-50 p-4 rounded-lg border border-emerald-100 mt-6">
-        <div class="flex items-center">
-          <div class="bg-emerald-100 text-emerald-800 p-2 rounded-full mr-3">
-            <i class="fas fa-lightbulb"></i>
-          </div>
-          <p class="text-emerald-800">Já evitaste cerca de 35 refeições que poderiam ter sido desperdiçadas!</p>
+          <p class="text-sm text-gray-600 mb-1">Total de pontos</p>
+          <p id="points" class="text-3xl font-bold text-blue-600">0 pontos</p>
         </div>
       </div>
     </div>
@@ -61,77 +56,20 @@
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-800">Recompensas Disponíveis</h2>
         <div class="flex space-x-2">
-          <button class="px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium">Todas</button>
-          <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Alimentação</button>
-          <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Material</button>
+          <button id="filter-todas" data-filter="todas"
+            class="filter-btn px-4 py-2 bg-emerald-500 text-white rounded-full text-sm font-medium">Todas</button>
+          <button id="filter-codigo_desconto" data-filter="codigo_desconto"
+            class="filter-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Código
+            Desconto</button>
+          <button id="filter-voucher" data-filter="voucher"
+            class="filter-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Voucher</button>
+          <button id="filter-produto" data-filter="produto"
+            class="filter-btn px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium">Produto</button>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="reward-card glass-card p-5 rounded-xl border border-gray-100">
-          <div class="flex justify-center mb-4">
-            <div class="bg-emerald-500 text-white p-4 rounded-full">
-              <i class="fas fa-mug-hot text-2xl"></i>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Café Grátis</h3>
-          <p class="text-gray-600 text-sm text-center mb-4">Um café especial no bar da universidade</p>
-          <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-full text-sm font-medium transition">
-            Resgatar
-          </button>
-        </div>
-
-        <div class="reward-card glass-card p-5 rounded-xl border border-gray-100">
-          <div class="flex justify-center mb-4">
-            <div class="bg-blue-500 text-white p-4 rounded-full">
-              <i class="fas fa-utensils text-2xl"></i>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Almoço Extra</h3>
-          <p class="text-gray-600 text-sm text-center mb-4">Uma refeição adicional no refeitório</p>
-          <button class="w-full bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium transition">
-            Resgatar
-          </button>
-        </div>
-
-        <div class="reward-card glass-card p-5 rounded-xl border border-gray-100">
-          <div class="flex justify-center mb-4">
-            <div class="bg-purple-500 text-white p-4 rounded-full">
-              <i class="fas fa-book text-2xl"></i>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Kit de Material</h3>
-          <p class="text-gray-600 text-sm text-center mb-4">Caderno + canetas da universidade</p>
-          <button class="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-medium transition">
-            Resgatar
-          </button>
-        </div>
-
-        <div class="reward-card glass-card p-5 rounded-xl border border-gray-100">
-          <div class="flex justify-center mb-4">
-            <div class="bg-orange-500 text-white p-4 rounded-full">
-              <i class="fas fa-print text-2xl"></i>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Crédito Escolar</h3>
-          <p class="text-gray-600 text-sm text-center mb-4">50 páginas grátis nas impressoras</p>
-          <button class="w-full bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-full text-sm font-medium transition">
-            Resgatar
-          </button>
-        </div>
-
-        <div class="reward-card glass-card p-5 rounded-xl border border-gray-100">
-          <div class="flex justify-center mb-4">
-            <div class="bg-red-500 text-white p-4 rounded-full">
-              <i class="fas fa-ticket-alt text-2xl"></i>
-            </div>
-          </div>
-          <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Desconto na Cantina</h3>
-          <p class="text-gray-600 text-sm text-center mb-4">10% de desconto durante 1 semana</p>
-          <button class="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm font-medium transition">
-            Resgatar
-          </button>
-        </div>
+      <div id="recompensas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Cartas de recompensas geradas pelo JS -->
       </div>
     </div>
 
@@ -139,56 +77,25 @@
       <h2 class="text-2xl font-bold text-gray-800 mb-6">Prémios Resgatados</h2>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-100">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prémio</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Prémio
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Tipo
+              </th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="h-10 w-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-mug-hot text-emerald-600"></i>
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">Café Grátis</div>
-                    <div class="text-sm text-gray-500">Bar</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/05/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Utilizado
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <i class="fas fa-print text-blue-600"></i>
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">Crédito Escolar</div>
-                    <div class="text-sm text-gray-500">Biblioteca</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">21/05/2025</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  Disponível
-                </span>
-              </td>
-            </tr>
+          </thead>
+          <tbody id="premios-resgatados-tbody" class="bg-white divide-y divide-gray-200">
+            <!-- Linhas geradas pelo JS -->
           </tbody>
         </table>
       </div>
     </div>
   </section>
 </body>
+<script type="module" src="../js/premios.js"></script>
+
 </html>
