@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Save Food, webapp </title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-<link rel="stylesheet" href="../styles/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../styles/style.css" />
 </head>
 
 <body>
@@ -20,7 +18,7 @@
           <i class="fas fa-utensils text-xl"></i>
         </div>
         <span class="logo-text text-xl font-bold">
-        Save<span class="text-emerald-600">Food</span>
+          Save<span class="text-emerald-600">Food</span>
         </span>
       </div>
     </div>
@@ -57,11 +55,8 @@
       </div>
     </div>
     <div class="glass-card p-4 rounded-2xl md:w-5/12">
-      <img
-        src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0"
-        alt="Ilustração Refeição"
-        class="w-full h-auto rounded-xl"
-      />
+      <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Ilustração Refeição"
+        class="w-full h-auto rounded-xl" />
     </div>
   </section>
 
@@ -144,4 +139,10 @@
     </div>
   </footer>
 </body>
+
+<script type="module">
+  import { updateLoginUI } from '../js/homepage.js';
+  updateLoginUI();
+</script>
+
 </html>
