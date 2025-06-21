@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestão de Pratos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../styles/style.css" />
+</head>
+
+<style>
+    .active-tab {
+      border-left: 4px solid #10b981;
+      background-color: rgba(16, 185, 129, 0.1);
+    }
+    .chart-container {
+      height: 250px;
+    }
+  </style>
+<body class="bg-gray-50 text-gray-800">
+
+  <div class="flex min-h-screen">
+   
+    <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
+      <div>
+        <div class="p-4 border-b flex items-center">
+          <div class="bg-emerald-100 p-2 rounded-lg mr-3">
+            <i class="fas fa-utensils text-emerald-600"></i>
+          </div>
+          <h1 class="text-xl font-bold">Save<span class="text-emerald-600">Food</span></h1>
+        </div>
+
+        <div class="p-4 border-b flex items-center">
+          <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+            <i class="fas fa-user text-emerald-600"></i>
+          </div>
+          <div>
+            <p class="font-medium">Admin</p>
+            <p class="text-sm text-gray-500">ESMAD</p>
+          </div>
+        </div>
+
+        <nav class="mt-4">
+          <a href="adminpage.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-tachometer-alt w-6 mr-3 text-emerald-600"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="adminpratos.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
+            <i class="fas fa-utensils w-6 mr-3 text-yellow-500"></i>
+            <span>Pratos</span>
+          </a>
+          <a href="adminmarcacoes.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
+            <i class="fas fa-calendar-check w-6 mr-3 text-blue-500"></i>
+            <span>Marcações</span>
+            </a>
+          <a href="adminuser.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
+            <i class="fas fa-users w-6 mr-3 text-purple-500"></i>
+            <span>Utilizadores</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="p-4 border-t">
+        <a href="#" class="flex items-center text-gray-700 hover:text-emerald-600">
+          <i class="fas fa-sign-out-alt w-6 mr-3"></i>
+          <span>Sair</span>
+        </a>
+      </div>
+    </aside>
+
+   
+    <main class="flex-1">
+      <header class="bg-white shadow-sm p-4">
+        <h1 class="text-2xl font-bold">Gestão de Pratos</h1>
+      </header>
+
+      <section class="p-6 space-y-6">
+        <div class="flex justify-between items-center">
+          <h2 class="text-lg font-semibold">Lista de Pratos</h2>
+          <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+            <i class="fas fa-plus mr-2"></i> Adicionar Prato
+          </button>
+        </div>
+
+        <div class="bg-white shadow rounded-lg overflow-x-auto">
+          <table class="min-w-full text-left">
+            <thead class="bg-gray-100 text-gray-600 text-sm">
+              <tr>
+                <th class="p-4">Nome</th>
+                <th class="p-4">Tipo de Prato</th>
+                <th class="p-4">Servido em</th>
+                <th class="p-4">Dia</th>
+                <th class="p-4">Disponível</th>
+                <th class="p-4 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 text-sm">
+             
+              <tr>
+                <td class="p-4">Arroz de Frango</td>
+                <td class="p-4">Carne</td>
+                <td class="p-4">Almoço</td>
+                <td class="p-4">Segunda</td>
+                <td class="p-4 text-emerald-600 font-medium">Sim</td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-blue-500 hover:underline"><i class="fas fa-edit mr-1"></i>Editar</button>
+                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i>Remover</button>
+                </td>
+              </tr>
+
+              
+              <tr>
+                <td class="p-4">Sopa de Legumes</td>
+                <td class="p-4">Vegetariano</td>
+                <td class="p-4">Jantar</td>
+                <td class="p-4">Quarta</td>
+                <td class="p-4 text-emerald-600 font-medium">Sim</td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-blue-500 hover:underline"><i class="fas fa-edit mr-1"></i>Editar</button>
+                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i>Remover</button>
+                </td>
+              </tr>
+
+              
+              <tr>
+                <td class="p-4">Bacalhau à Brás</td>
+                <td class="p-4">Peixe</td>
+                <td class="p-4">Almoço e Jantar</td>
+                <td class="p-4">Sexta</td>
+                <td class="p-4 text-red-500 font-medium">Não</td>
+                <td class="p-4 text-right space-x-2">
+                  <button class="text-blue-500 hover:underline"><i class="fas fa-edit mr-1"></i>Editar</button>
+                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i>Remover</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
