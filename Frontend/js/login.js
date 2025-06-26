@@ -29,7 +29,12 @@ async function handleLoginForm() {
                 localStorage.setItem("userId", payload.user_id);
                 localStorage.setItem("type_user", payload.type_user);
 
-                window.location.href = "Homepage.html";
+                // Redirecionar conforme o tipo de usuário
+                if (payload.type_user === "admin") {
+                    window.location.href = "adminpage.html";
+                } else {
+                    window.location.href = "Homepage.html";
+                }
             } else {
                 const error = await response.json();
                 alert(error.message || "Erro ao fazer login.");

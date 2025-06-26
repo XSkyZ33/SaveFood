@@ -16,7 +16,7 @@ describe('Verificação de token JWT', () => {
   test('Deve gerar um token válido', () => {
     expect(token).toBeDefined();
     const partes = token.split('.');
-    expect(partes).toHaveLength(3); // header.payload.signature
+    expect(partes).toHaveLength(3);
   });
 
   test('Deve decodificar um token válido e conter ID e Email', () => {
