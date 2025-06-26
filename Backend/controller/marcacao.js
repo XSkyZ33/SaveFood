@@ -36,6 +36,34 @@ const createMarcacao = async (req, res) => {
   }
 };
 
+const createMarcacaoForUser = async (req, res) => {
+  const userId = req.params.userId;
+  const { data_marcacao, horario, prato } = req.body;
+  try {
+    const pratoEncontrado = await Pratos.findById(prato);
+    if (!pratoEncontrado) {
+      return res.status(404).json({ message: 'Prato não encontrado. Não foi possível criar a marcação.' });
+    }
+    const novaMarcacao = new Marcacao({
+      userId: userId,
+      data_marcacao,
+      horario,
+      prato,
+    });
+    await novaMarcacao.save();
+    // Atualiza o usuário adicionando a marcação ao array `marcacoes`
+    await Users.findByIdAndUpdate(
+      userId,
+      { $push: { marcacoes: novaMarcacao._id } },
+      { new: true }
+    );
+    res.status(201).json({ message: 'Marcação criada com sucesso', marcacao: novaMarcacao });
+  } catch (error) {
+    console.error('Erro ao criar marcação para utilizador:', error);
+    res.status(500).json({ message: 'Erro ao criar marcação para utilizador', error });
+  }
+};
+
 
 // Obter marcações (todas ou por data)
 const getMarcacoes = async (req, res) => {
@@ -215,4 +243,5 @@ exports.getMarcacaoById = getMarcacaoById;
 exports.deleteMarcacao = deleteMarcacao;
 exports.consumirMarcacao = consumirMarcacao;
 exports.updateMarcacao = updateMarcacao;
+exports.createMarcacaoForUser = createMarcacaoForUser;
 

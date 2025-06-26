@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,19 +8,20 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
   <style>
     .active-tab {
       border-left: 4px solid #10b981;
       background-color: rgba(16, 185, 129, 0.1);
     }
+
     .chart-container {
       height: 250px;
     }
   </style>
+</head>
+
 <body class="bg-gray-50 text-gray-800">
   <div class="flex min-h-screen">
-    
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
       <div>
         <div class="p-4 border-b flex items-center">
@@ -39,7 +41,7 @@
           </div>
         </div>
 
-       <nav class="mt-4">
+        <nav class="mt-4">
           <a href="adminpage.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 ">
             <i class="fas fa-tachometer-alt w-6 mr-3 text-emerald-600"></i>
             <span>Dashboard</span>
@@ -65,7 +67,7 @@
             <span>Notificações</span>
           </a>
         </nav>
-      </div> 
+      </div>
 
       <div class="p-4 border-t">
         <a href="Homepage.html" class="flex items-center text-gray-700 hover:text-emerald-600">
@@ -75,83 +77,87 @@
       </div>
     </aside>
 
-
-  
     <main class="flex-1">
       <header class="bg-white shadow-sm p-4">
         <h1 class="text-2xl font-bold">Gestão de Marcações</h1>
       </header>
 
       <section class="p-6 space-y-6">
-       
-        <div class="flex flex-wrap items-center gap-4">
+        <div class="flex items-center gap-4 mb-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Dia</label>
-            <select class="border px-3 py-2 rounded text-sm">
-              <option>Segunda</option>
-              <option>Terça</option>
-              <option>Quarta</option>
-              <option>Quinta</option>
-              <option>Sexta</option>
-            </select>
+            <label for="filtroData" class="block text-sm font-medium text-gray-700">Filtrar por Data:</label>
+            <input type="date" id="filtroData" class="border rounded px-2 py-1" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Tipo de Refeição</label>
-            <select class="border px-3 py-2 rounded text-sm">
-              <option>Almoço</option>
-              <option>Jantar</option>
+            <label for="filtroUser" class="block text-sm font-medium text-gray-700">Filtrar por Usuário:</label>
+            <select id="filtroUser" class="border rounded px-2 py-1">
+              <option value="">Todos</option>
             </select>
           </div>
-          <button class="bg-emerald-600 text-white px-4 py-2 mt-6 rounded hover:bg-emerald-700">
-            <i class="fas fa-search mr-2"></i>Filtrar
-          </button>
         </div>
 
-      
         <div class="flex justify-between items-center">
           <h2 class="text-lg font-semibold">Marcações</h2>
-          <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-            <i class="fas fa-user-plus mr-2"></i> Adicionar Marcação
-          </button>
+          <button id="btnAddMarcacao" class="bg-green-500 text-white px-4 py-2 rounded mt-4">+ Nova Marcação</button>
         </div>
 
         <div class="bg-white shadow rounded-lg overflow-x-auto">
-          <table class="min-w-full text-left">
+          <table id="marcacoesTable" class="min-w-full text-left">
             <thead class="bg-gray-100 text-gray-600 text-sm">
               <tr>
                 <th class="p-4">Nome</th>
-                <th class="p-4">Número de Estudante</th>
-                <th class="p-4">Curso</th>
                 <th class="p-4">Email</th>
+                <th class="p-4">Data Pedido</th>
+                <th class="p-4">Data Marcação</th>
+                <th class="p-4">Horário</th>
+                <th class="p-4">Prato</th>
+                <th class="p-4">Estado</th>
                 <th class="p-4 text-right">Ações</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 text-sm">
-              
-              <tr>
-                <td class="p-4">Joana Silva</td>
-                <td class="p-4">2021456</td>
-                <td class="p-4">Design Multimédia</td>
-                <td class="p-4">joana.silva@esmad.pt</td>
-                <td class="p-4 text-right space-x-2">
-                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i>Remover</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="p-4">Miguel Sousa</td>
-                <td class="p-4">2021321</td>
-                <td class="p-4">Tecnologias Web</td>
-                <td class="p-4">miguel.sousa@esmad.pt</td>
-                <td class="p-4 text-right space-x-2">
-                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i>Remover</button>
-                </td>
-              </tr>
-             
+            <tbody id="marcacoesBody" class="divide-y divide-gray-200 text-sm">
+              <!-- As marcações serão inseridas aqui pelo JS -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
   </div>
+
+  <!-- Modal -->
+  <div id="modalMarcacao" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+      <h2 class="text-xl font-semibold mb-4">Criar Nova Marcação</h2>
+      <form id="formMarcacao">
+        <div class="mb-4">
+          <label for="userId" class="block font-medium mb-1">Usuário</label>
+          <select id="userId" class="w-full border p-2 rounded" required></select>
+        </div>
+        <div class="mb-4">
+          <label for="pratoId" class="block font-medium mb-1">Prato</label>
+          <select id="pratoId" class="w-full border p-2 rounded" required></select>
+        </div>
+        <div class="mb-4">
+          <label for="data_marcacao" class="block font-medium mb-1">Data</label>
+          <input type="date" id="data_marcacao" class="w-full border p-2 rounded" required />
+        </div>
+        <div class="mb-4">
+          <label for="horario" class="block font-medium mb-1">Horário</label>
+          <select id="horario" class="w-full border p-2 rounded" required>
+            <option value="Almoco">Almoço</option>
+            <option value="Jantar">Jantar</option>
+          </select>
+        </div>
+        <div class="flex justify-end space-x-2">
+          <button type="button" id="btnCancel" class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <script src="../js/adminmarcacoes.js"></script>
 </body>
+
 </html>

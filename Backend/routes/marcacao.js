@@ -31,6 +31,15 @@ router.post('/', auth.validateUser, [
     body('prato').notEmpty().isMongoId()
 ], validateRequest, controller.createMarcacao);
 
+// criar marcação para um utilizador específico (admin)
+router.post('/user/:userId', auth.validateAdmin, [
+    param('userId').isMongoId(),
+    body('data_marcacao').notEmpty().isISO8601(),
+    body('horario').notEmpty().isIn(['Almoco', 'Jantar']),
+    body('prato').notEmpty().isMongoId()
+], validateRequest, controller.createMarcacaoForUser);
+
+
 // Consumir marcação
 router.post('/:id/consumir', auth.validateUser, [
     param('id').isMongoId()
