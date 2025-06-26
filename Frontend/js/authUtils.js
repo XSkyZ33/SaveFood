@@ -62,6 +62,70 @@ export async function updateLoginUI() {
   }
 }
 
+export async function checkAdminAccess() {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.warn("Token não encontrado. Redirecionando para login...");
+    window.location.href = "/Login.html";
+    return;
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/users/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      console.warn("Token inválido ou requisição falhou. Redirecionando...");
+      window.location.href = "/Login.html";
+      return;
+    }
+
+    const user = await res.json();
+    console.log("Usuário autenticado:", user);
+
+    if (user.type_user !== "admin") {
+      alert("Acesso negado. Apenas administradores.");
+      window.location.href = "/index.html"; // ou outra página para utilizadores comuns
+    }
+  } catch (err) {
+    console.error("Erro na verificação de acesso:", err);
+    window.location.href = "/Login.html";
+  }
+}
+
+export async function adicionarBotaoAdminSeForAdmin() {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    const res = await fetch("http://localhost:3000/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) return;
+
+    const user = await res.json();
+    if (user.type_user !== "admin") return;
+
+    // Inserir o botão de Administração na navbar
+    const navLinksContainer = document.querySelector(".nav-links");
+    if (!navLinksContainer || navLinksContainer.querySelector(".admin-link")) return;
+
+    const adminLink = document.createElement("a");
+    adminLink.href = "adminpage.html"; // ou o nome da tua página admin
+    adminLink.textContent = "Administração";
+    adminLink.classList.add("nav-link", "admin-link");
+
+    navLinksContainer.appendChild(adminLink);
+  } catch (error) {
+    console.error("Erro ao verificar se é admin:", error);
+  }
+}
+
 
 // Chamar a função quando o documento carregar
 document.addEventListener("DOMContentLoaded", () => {

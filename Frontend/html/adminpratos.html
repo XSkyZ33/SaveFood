@@ -83,8 +83,7 @@
       <section class="p-6 space-y-6">
         <div class="flex justify-between items-center">
           <h2 class="text-lg font-semibold">Lista de Pratos</h2>
-          <button onclick="abrirModalCriarPrato()"
-            class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+          <button id="btnAbrirModalPrato" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
             <i class="fas fa-plus mr-2"></i> Adicionar Prato
           </button>
 
@@ -141,7 +140,7 @@
         <select id="tipoPrato" name="tipo_prato" required class="w-full p-2 border rounded">
           <option value="">Selecione o tipo</option>
         </select>
-        <input type="file" id="imagemPrato" name="imagem" accept="image/*" class="w-full p-2 border rounded" />
+        <input type="file" id="imagemPrato" name="image" />
 
         <button type="submit" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 w-full">
           Criar Prato
@@ -154,7 +153,7 @@
     </div>
   </div>
 
-  <script src="../js/adminprato.js"></script>
+  <script type="module" src="../js/adminprato.js"></script>
 </body>
 
 </html>
