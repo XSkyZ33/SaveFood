@@ -158,52 +158,74 @@ const register = async (req, res) => {
 }
 
 const UpdateUser = async (req, res) => {
-    const { id } = req.params; // ID do user a ser editado
-    const { name, email, password, avatar } = req.body;
+  const { id } = req.params;
+  const { name, email, password, avatar, pontos_bom_comportamento, pontos_recompensas } = req.body;
 
-    try {
-        const db_user = await Users.findById(req.user.id); // quem está logado
-        const user = await Users.findById(id); // quem vai ser editado
+  try {
+    const db_user = await Users.findById(req.user.id);
+    const user = await Users.findById(id);
 
-        if (!user) {
-            return res.status(404).json({ message: "Usuário não encontrado" });
-        }
-
-        // ✅ Só o próprio user ou um admin pode editar
-        if (req.user.id !== user._id.toString() && db_user.type_user !== 'admin') {
-            return res.status(401).json({ message: 'Não autorizado a atualizar este perfil.' });
-        }
-
-        // Atualiza os campos
-        if (name) user.name = name;
-        if (email) user.email = email;
-        if (password) {
-            user.password = await bcrypt.hash(password, 10);
-        }
-
-        if (req.file) {
-            const b64 = Buffer.from(req.file.buffer).toString("base64");
-            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-            try {
-                const imagem = await cloudinary.uploader.upload(dataURI, { resource_type: "image" });
-                user.avatar = imagem.secure_url;
-                user.cloudinary_id = imagem.public_id;
-            } catch (error) {
-                return res.status(500).json({ message: "Erro ao fazer upload da imagem" });
-            }
-        } else if (avatar === null || avatar === '') {
-            user.avatar = null;
-            user.cloudinary_id = null;
-        }
-
-        await user.save();
-        res.status(200).json({ message: "Usuário atualizado com sucesso" });
-
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Erro interno no servidor' });
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado" });
     }
+
+    if (req.user.id !== user._id.toString() && db_user.type_user !== 'admin') {
+      return res.status(401).json({ message: 'Não autorizado a atualizar este perfil.' });
+    }
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    if (req.file) {
+      // Remove imagem antiga se existir
+      if (user.cloudinary_id) {
+        await cloudinary.uploader.destroy(user.cloudinary_id);
+      }
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+      try {
+        const imagem = await cloudinary.uploader.upload(dataURI, { resource_type: "image" });
+        user.avatar = imagem.secure_url;
+        user.cloudinary_id = imagem.public_id;
+      } catch (error) {
+        return res.status(500).json({ message: "Erro ao fazer upload da imagem" });
+      }
+    } else if (avatar === null || avatar === '') {
+      if (user.cloudinary_id) {
+        await cloudinary.uploader.destroy(user.cloudinary_id);
+      }
+      user.avatar = null;
+      user.cloudinary_id = null;
+    }
+
+    if (pontos_bom_comportamento !== undefined) {
+      const pontosBomComportamentoNum = Number(pontos_bom_comportamento);
+      if (isNaN(pontosBomComportamentoNum) || pontosBomComportamentoNum < 0) {
+        return res.status(400).json({ message: "Pontos de bom comportamento inválidos" });
+      }
+      user.pontos_bom_comportamento = pontosBomComportamentoNum;
+    }
+
+    if (pontos_recompensas !== undefined) {
+      const pontosRecompensasNum = Number(pontos_recompensas);
+      if (isNaN(pontosRecompensasNum) || pontosRecompensasNum < 0) {
+        return res.status(400).json({ message: "Pontos de recompensas inválidos" });
+      }
+      user.pontos_recompensas = pontosRecompensasNum;
+    }
+
+    await user.save();
+    res.status(200).json({ message: "Usuário atualizado com sucesso" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro interno no servidor' });
+  }
 };
+
 
 exports.login = login;
 exports.register = register;

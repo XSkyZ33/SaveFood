@@ -19,8 +19,6 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
   <div class="flex min-h-screen">
-    
-    
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
       <div>
         <div class="p-4 border-b flex items-center">
@@ -53,7 +51,7 @@
             <i class="fas fa-calendar-check w-6 mr-3 text-blue-500"></i>
             <span>Marcações</span>
           </a>
-                <a href="adminuser.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
+          <a href="adminuser.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
             <i class="fas fa-users w-6 mr-3 text-purple-500"></i>
             <span>Utilizadores</span>
           </a>
@@ -72,7 +70,6 @@
       </div>
     </aside>
 
-    
     <main class="flex-1">
       <header class="bg-white shadow-sm p-4">
         <h1 class="text-2xl font-bold">Gestão de Utilizadores</h1>
@@ -81,7 +78,7 @@
       <section class="p-6 space-y-6">
         <div class="flex justify-between items-center">
           <h2 class="text-lg font-semibold">Lista de Utilizadores</h2>
-          <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+          <button id="addUserBtn" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
             <i class="fas fa-user-plus mr-2"></i> Adicionar Utilizador
           </button>
         </div>
@@ -92,34 +89,21 @@
               <tr>
                 <th class="p-4">Nome</th>
                 <th class="p-4">Email</th>
-                <th class="p-4">Tipo</th>
+                <th class="p-4">Tipo de Utilizador</th>
+                <th class="p-4">Pontos Recompensa</th>
+                <th class="p-4">Pontos Bom Comportamento</th>
+                <th class="p-4">Created At</th>
                 <th class="p-4 text-right">Ações</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200 text-sm">
-            
-              <tr>
-                <td class="p-4">Ana Costa</td>
-                <td class="p-4">ana.costa@esmad.pt</td>
-                <td class="p-4">Estudante</td>
-                <td class="p-4 text-right">
-                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i> Remover</button>
-                </td>
-              </tr>
-              <tr>
-                <td class="p-4">Carlos Moreira</td>
-                <td class="p-4">carlos.moreira@esmad.pt</td>
-                <td class="p-4">Admin</td>
-                <td class="p-4 text-right">
-                  <button class="text-red-500 hover:underline"><i class="fas fa-trash-alt mr-1"></i> Remover</button>
-                </td>
-              </tr>
-              
+            <tbody id="usersTableBody" class="divide-y divide-gray-200 text-sm">
+              <!-- Usuários serão inseridos aqui dinamicamente -->
             </tbody>
           </table>
         </div>
       </section>
     </main>
   </div>
+  <script src="../js/adminusers.js"></script>
 </body>
 </html>
