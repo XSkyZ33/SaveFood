@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Notificações</title>
+  <title>Admin - Estatísticas</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
- <style>
+  <style>
     .active-tab {
       border-left: 4px solid #10b981;
       background-color: rgba(16, 185, 129, 0.1);
@@ -20,6 +19,8 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
   <div class="flex min-h-screen">
+
+    
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
       <div>
         <div class="p-4 border-b flex items-center">
@@ -56,20 +57,20 @@
             <i class="fas fa-users w-6 mr-3 text-purple-500"></i>
             <span>Utilizadores</span>
           </a>
-          <a href="adminpremios.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 ">
+          <a href="adminpremios.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-gift w-6 mr-3 text-red-500"></i>
             <span>Recompensas</span>
           </a>
-          <a href="adminnotificacoes.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
+          <a href="adminnotificacoes.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-bell w-6 mr-3 text-yellow-500"></i>
             <span>Notificações</span>
           </a>
-          <a href="adminestatisticas.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 ">
+          <a href="adminestatisticas.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 active-tab">
             <i class="fas fa-chart-bar w-6 mr-3 text-green-500"></i>
             <span>Estatísticas</span>
           </a>
         </nav>
-      </div> 
+      </div>
 
       <div class="p-4 border-t">
         <a href="Homepage.html" class="flex items-center text-gray-700 hover:text-emerald-600">
@@ -82,35 +83,49 @@
    
     <main class="flex-1">
       <header class="bg-white shadow-sm p-4">
-        <h1 class="text-2xl font-bold">Notificações do Sistema</h1>
+        <h1 class="text-2xl font-bold">Estatísticas Gerais</h1>
       </header>
 
       <section class="p-6 space-y-6">
-       
-        <div class="flex gap-3">
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Todas</button>
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Ausências</button>
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Desperdício</button>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white p-4 rounded-lg shadow">
+            <p class="text-gray-600 text-sm">Desperdício este mês</p>
+            <p class="text-2xl font-bold text-red-500">24 kg</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <p class="text-gray-600 text-sm">Marcações concluídas</p>
+            <p class="text-2xl font-bold text-green-500">372</p>
+          </div>
+          <div class="bg-white p-4 rounded-lg shadow">
+            <p class="text-gray-600 text-sm">Ausências registadas</p>
+            <p class="text-2xl font-bold text-yellow-500">15</p>
+          </div>
         </div>
 
        
-        <div class="space-y-4">
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
-            <p class="text-sm"><span class="font-bold">Aviso:</span> O aluno <span class="text-blue-600 font-semibold">João Silva</span> não compareceu à marcação de hoje às 12:00.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 12:30</p>
-          </div>
-
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
-            <p class="text-sm"><span class="font-bold">Alerta:</span> Foram registados <span class="text-red-600 font-semibold">10kg</span> de desperdício alimentar hoje.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 13:45</p>
-          </div>
-
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
-            <p class="text-sm"><span class="font-bold">Info:</span> Marcação de <span class="text-blue-600">Pedro Ferreira</span> foi cancelada por falta de confirmação.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 09:10</p>
+        <div class="bg-white p-4 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-3">Desperdício por Semana</h2>
+          <div class="flex items-end space-x-4 h-48">
+            <div class="flex flex-col items-center w-full">
+              <div class="bg-red-400 w-6 h-10 rounded-t"></div>
+              <span class="text-xs mt-1">Seg</span>
+            </div>
+            <div class="flex flex-col items-center w-full">
+              <div class="bg-red-400 w-6 h-24 rounded-t"></div>
+              <span class="text-xs mt-1">Ter</span>
+            </div>
+            <div class="flex flex-col items-center w-full">
+              <div class="bg-red-400 w-6 h-16 rounded-t"></div>
+              <span class="text-xs mt-1">Qua</span>
+            </div>
+            <div class="flex flex-col items-center w-full">
+              <div class="bg-red-400 w-6 h-20 rounded-t"></div>
+              <span class="text-xs mt-1">Qui</span>
+            </div>
+            <div class="flex flex-col items-center w-full">
+              <div class="bg-red-400 w-6 h-32 rounded-t"></div>
+              <span class="text-xs mt-1">Sex</span>
+            </div>
           </div>
         </div>
       </section>
