@@ -9,6 +9,16 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../styles/style.css" />
+  <style>
+    #estatisticas-container>div {
+      width: 100%;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -50,91 +60,26 @@
         <a href="dashboard.html" class="block py-2 px-4 rounded hover:bg-white hover:text-green-600">Dashboard
           Pessoal</a>
         <a href="refeicoes.html" class="block py-2 px-4 rounded hover:bg-white hover:text-green-600">Refeições</a>
-        <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-green-600">Desperdício Feito</a>
         <a href="graficos.html" class="block py-2 px-4 rounded hover:bg-white hover:text-green-600">Relatórios</a>
-        <a href="#" class="block py-2 px-4 rounded hover:bg-white hover:text-green-600">Configurações</a>
       </nav>
     </aside>
 
     <main class="flex-1 p-10 bg-gray-100">
       <h2 class="text-3xl font-semibold text-gray-800 mb-8">Dashboard Geral</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-        <div class="card p-6">
-          <div class="text-sm text-gray-500">Refeições Servidas</div>
-          <div class="text-2xl font-bold text-gray-800 mt-2">3.245</div>
-        </div>
-        <div class="card p-6">
-          <div class="text-sm text-gray-500">Desperdício (kg)</div>
-          <div class="text-2xl font-bold text-red-500 mt-2">72</div>
-        </div>
-        <div class="card p-6">
-          <div class="text-sm text-gray-500">Alunos Participantes</div>
-          <div class="text-2xl font-bold text-gray-800 mt-2">1.234</div>
-        </div>
-        <div class="card p-6">
-          <div class="text-sm text-gray-500">Meta Semanal</div>
-          <div class="text-2xl font-bold text-emerald-500 mt-2">85%</div>
-        </div>
-      </div>
+      <!-- Container para os cards -->
+      <div id="estatisticas-container" class="space-y-6"></div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="card p-6">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Refeições por Dia</h3>
-          <canvas id="mealsChart"></canvas>
-        </div>
-        <div class="card p-6">
-          <h3 class="text-lg font-semibold text-gray-700 mb-4">Desperdício Semanal</h3>
-          <canvas id="wasteChart"></canvas>
-        </div>
-      </div>
+
+
     </main>
   </div>
-
-  <script>
-    const mealsChart = new Chart(document.getElementById('mealsChart'), {
-      type: 'bar',
-      data: {
-        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-        datasets: [{
-          label: 'Refeições',
-          data: [620, 700, 665, 740, 520],
-          backgroundColor: '#10b981'
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false }
-        }
-      }
-    });
-
-    const wasteChart = new Chart(document.getElementById('wasteChart'), {
-      type: 'line',
-      data: {
-        labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'],
-        datasets: [{
-          label: 'Kg Desperdiçados',
-          data: [15, 12, 14, 18, 13],
-          borderColor: '#ef4444',
-          backgroundColor: 'rgba(239, 68, 68, 0.1)',
-          fill: true
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'bottom' }
-        }
-      }
-    });
+  <script src="../js/relatorios.js"></script>
+  <script type="module">
+    import { updateLoginUI, adicionarBotaoAdminSeForAdmin } from '../js/authUtils.js';
+    updateLoginUI();
+    adicionarBotaoAdminSeForAdmin();
   </script>
-<script type="module">
-  import { updateLoginUI, adicionarBotaoAdminSeForAdmin } from '../js/authUtils.js';
-  updateLoginUI();
-  adicionarBotaoAdminSeForAdmin();
-</script>
 
 </body>
 
