@@ -69,8 +69,16 @@ const createMarcacaoForUser = async (req, res) => {
 const getMarcacoes = async (req, res) => {
   try {
     const filtro = {};
+
     if (req.query.data) {
-      filtro.data_marcacao = new Date(req.query.data);
+      const data = new Date(req.query.data);
+      const diaSeguinte = new Date(data);
+      diaSeguinte.setDate(data.getDate() + 1);
+
+      filtro.data_marcacao = {
+        $gte: data,
+        $lt: diaSeguinte,
+      };
     }
 
     const marcacoes = await Marcacao.find(filtro)
@@ -84,6 +92,7 @@ const getMarcacoes = async (req, res) => {
     res.status(200).json(marcacoes);
 
   } catch (error) {
+    console.error('Erro ao obter marcações:', error);
     res.status(500).json({ message: 'Erro ao obter marcações', error });
   }
 };

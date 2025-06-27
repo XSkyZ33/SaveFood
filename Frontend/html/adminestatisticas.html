@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Estatísticas</title>
   <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../styles/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     .active-tab {
       border-left: 4px solid #10b981;
       background-color: rgba(16, 185, 129, 0.1);
     }
+
     .chart-container {
       height: 250px;
     }
   </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
   <div class="flex min-h-screen">
 
-    
+
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
       <div>
         <div class="p-4 border-b flex items-center">
@@ -80,56 +84,87 @@
       </div>
     </aside>
 
-   
+
     <main class="flex-1">
       <header class="bg-white shadow-sm p-4">
         <h1 class="text-2xl font-bold">Estatísticas Gerais</h1>
       </header>
 
       <section class="p-6 space-y-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white p-4 rounded-lg shadow">
-            <p class="text-gray-600 text-sm">Desperdício este mês</p>
-            <p class="text-2xl font-bold text-red-500">24 kg</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <p class="text-gray-600 text-sm">Marcações concluídas</p>
-            <p class="text-2xl font-bold text-green-500">372</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <p class="text-gray-600 text-sm">Ausências registadas</p>
-            <p class="text-2xl font-bold text-yellow-500">15</p>
-          </div>
+
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Estatísticas Criadas</h2>
+          <button onclick="openEstatisticaModal()"
+            class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+            + Nova Estatística
+          </button>
         </div>
 
-       
-        <div class="bg-white p-4 rounded-lg shadow">
-          <h2 class="text-lg font-semibold mb-3">Desperdício por Semana</h2>
-          <div class="flex items-end space-x-4 h-48">
-            <div class="flex flex-col items-center w-full">
-              <div class="bg-red-400 w-6 h-10 rounded-t"></div>
-              <span class="text-xs mt-1">Seg</span>
-            </div>
-            <div class="flex flex-col items-center w-full">
-              <div class="bg-red-400 w-6 h-24 rounded-t"></div>
-              <span class="text-xs mt-1">Ter</span>
-            </div>
-            <div class="flex flex-col items-center w-full">
-              <div class="bg-red-400 w-6 h-16 rounded-t"></div>
-              <span class="text-xs mt-1">Qua</span>
-            </div>
-            <div class="flex flex-col items-center w-full">
-              <div class="bg-red-400 w-6 h-20 rounded-t"></div>
-              <span class="text-xs mt-1">Qui</span>
-            </div>
-            <div class="flex flex-col items-center w-full">
-              <div class="bg-red-400 w-6 h-32 rounded-t"></div>
-              <span class="text-xs mt-1">Sex</span>
-            </div>
+        <!-- Container para os cards -->
+        <div id="estatisticas-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+        <div id="grafico-container" class="hidden mt-8 bg-white p-6 rounded shadow max-w-3xl">
+          <h2 class="text-lg font-semibold mb-4">Gráfico</h2>
+
+          <div class="mb-4 flex items-center space-x-4">
+            <label for="tipoGrafico" class="font-medium">Tipo de gráfico:</label>
+            <select id="tipoGrafico" class="border rounded p-1">
+              <option value="bar">Barra</option>
+              <option value="line">Linha</option>
+              <option value="doughnut">Pizza</option>
+              <option value="radar">Radar</option>
+              <option value="polarArea">Polar</option>
+            </select>
+          </div>
+
+          <canvas id="grafico-estatistica"></canvas>
+        </div>
+
+
+
+
+        <!-- Modal para adicionar/editar estatísticas -->
+        <div id="estatistica-modal"
+          class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+          <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+            <h2 id="modal-title" class="text-xl font-bold mb-4">Nova Estatística</h2>
+
+            <form id="estatistica-form" class="space-y-4">
+              <input type="hidden" id="estatistica-id" />
+
+              <div>
+                <label class="block text-sm font-medium">Tipo de Estatística</label>
+                <select id="tipo_estatistica" required class="w-full border rounded px-3 py-2">
+                  <option value="">Selecione</option>
+                  <option value="diaria">Diária</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="mensal">Mensal</option>
+                  <option value="anual">Anual</option>
+                  <option value="prato">Prato</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium">Observação</label>
+                <input type="text" id="observacao" required class="w-full border rounded px-3 py-2" />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium">Dados (JSON)</label>
+                <textarea id="dados" rows="5" placeholder='[{"categoria": "Desperdício", "valor(KG)": 100}]' required
+                  class="w-full border rounded px-3 py-2 font-mono text-sm"></textarea>
+              </div>
+
+              <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeEstatisticaModal()"
+                  class="px-4 py-2 bg-gray-300 rounded">Cancelar</button>
+                <button type="submit"
+                  class="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">Guardar</button>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
-    </main>
-  </div>
+        <script src="../js/adminestatisticas.js"></script>
 </body>
+
 </html>

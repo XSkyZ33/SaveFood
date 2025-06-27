@@ -1,3 +1,5 @@
+const token = localStorage.getItem('token');
+
 // Função para formatar datas para dd/mm/yyyy
 function formatDate(dateString) {
     const d = new Date(dateString);
@@ -8,132 +10,104 @@ function formatDate(dateString) {
 }
 
 async function fetchUserById(id, token) {
-    console.log(`fetchUserById: Buscando usuário com id = ${id}`);
     const res = await fetch(`http://localhost:3000/users/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
     });
-    if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Erro ao buscar usuário ${id}: ${res.status} ${errorText}`);
-        throw new Error(`Erro ao buscar usuário ${id}`);
-    }
+    if (!res.ok) throw new Error(`Erro ao buscar usuário ${id}`);
     const data = await res.json();
-    console.log('fetchUserById: usuário encontrado:', data);
-    return data;
+    return data.user || data;
 }
 
 async function fetchPratoById(id, token) {
-    console.log(`fetchPratoById: Buscando prato com id = ${id}`);
     const res = await fetch(`http://localhost:3000/pratos/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
     });
-    if (!res.ok) {
-        const errorText = await res.text();
-        console.error(`Erro ao buscar prato ${id}: ${res.status} ${errorText}`);
-        throw new Error(`Erro ao buscar prato ${id}`);
-    }
+    if (!res.ok) throw new Error(`Erro ao buscar prato ${id}`);
     const data = await res.json();
-    console.log('fetchPratoById: prato encontrado:', data);
     return data;
 }
 
-async function loadMarcacoesCompletas() {
+async function loadMarcacoesCompletas(filtroData = '', filtroUserId = '') {
     try {
         const token = localStorage.getItem('token');
-        console.log('Token JWT obtido:', token);
-
         if (!token) {
             alert('Token não encontrado. Faça login novamente.');
             return;
         }
 
-        // Buscar marcações
-        const resMarcacoes = await fetch('http://localhost:3000/marcacoes', {
+        let url = 'http://localhost:3000/marcacoes';
+        if (filtroData) {
+            url += `?data=${encodeURIComponent(filtroData)}`;
+        }
+
+        const resMarcacoes = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!resMarcacoes.ok) {
             const errorText = await resMarcacoes.text();
-            console.error('Erro ao obter marcações:', resMarcacoes.status, errorText);
-            throw new Error('Erro ao obter marcações');
+            throw new Error('Erro ao obter marcações: ' + errorText);
         }
 
-        const marcacoes = await resMarcacoes.json();
-        console.log('Marcações recebidas:', marcacoes);
+        let marcacoes = await resMarcacoes.json();
+
+        // Filtrar por utilizador no frontend
+        if (filtroUserId) {
+            marcacoes = marcacoes.filter(m => {
+                const uid = typeof m.userId === 'object' ? m.userId._id || m.userId.id : m.userId;
+                return uid === filtroUserId;
+            });
+        }
 
         const tbody = document.getElementById('marcacoesBody');
-        if (!tbody) {
-            console.error('Elemento tbody com id "marcacoesBody" não encontrado no DOM!');
-            return;
-        }
         tbody.innerHTML = '';
 
-        // Para cada marcação, buscar user e prato
         for (const marcacao of marcacoes) {
-            console.log('Processando marcação:', marcacao);
-
-            // Verificar e extrair userId e pratoId
             let userId = marcacao.userId;
             if (typeof userId === 'object' && userId !== null) {
                 userId = userId._id || userId.id || null;
             }
+
             let pratoId = marcacao.prato;
             if (typeof pratoId === 'object' && pratoId !== null) {
                 pratoId = pratoId._id || pratoId.id || null;
             }
-            console.log(`IDs extraídos - userId: ${userId}, pratoId: ${pratoId}`);
 
-            // Buscar dados do user (com tratamento de erros)
             let user = {};
             try {
-                if (userId) {
-                    const fetched = await fetchUserById(userId, token);
-                    // Se o objeto tem um campo user, extraia:
-                    user = fetched.user || fetched;
-                } else {
-                    console.warn('userId inválido ou ausente na marcação:', marcacao);
-                }
+                if (userId) user = await fetchUserById(userId, token);
             } catch (e) {
                 console.error('Erro ao buscar usuário:', e);
             }
 
-
-            // Buscar dados do prato (com tratamento de erros)
             let prato = {};
             try {
-                if (pratoId) {
-                    prato = await fetchPratoById(pratoId, token);
-                } else {
-                    console.warn('pratoId inválido ou ausente na marcação:', marcacao);
-                }
+                if (pratoId) prato = await fetchPratoById(pratoId, token);
             } catch (e) {
                 console.error('Erro ao buscar prato:', e);
             }
 
-            console.log('User atual para preencher tabela:', user);
-
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="p-4">${user.name}</td>
+                <td class="p-4">${user.name || '-'}</td>
                 <td class="p-4">${user.email || '-'}</td>
                 <td class="p-4">${marcacao.data_pedido ? formatDate(marcacao.data_pedido) : '-'}</td>
                 <td class="p-4">${marcacao.data_marcacao ? formatDate(marcacao.data_marcacao) : '-'}</td>
                 <td class="p-4">${marcacao.horario || '-'}</td>
-                 <td class="p-4 flex items-center space-x-2">
+                <td class="p-4 flex items-center space-x-2">
                     ${prato.imagem ? `<img src="${prato.imagem}" alt="${prato.nome}" class="w-12 h-12 rounded object-cover" />` : ''}
                     <span>${prato.nome || '-'}</span>
                 </td>
                 <td class="p-4">${marcacao.estado || '-'}</td>
                 <td class="p-4 text-right space-x-2">
-                <button data-id="${marcacao._id}" class="btnDelete text-red-500 hover:underline">
-                    <i class="fas fa-trash-alt mr-1"></i>Remover
-                </button>
+                    <button data-id="${marcacao._id}" class="btnDelete text-red-500 hover:underline">
+                        <i class="fas fa-trash-alt mr-1"></i>Remover
+                    </button>
                 </td>
             `;
             tbody.appendChild(tr);
         }
 
-        // Eventos dos botões remover
         document.querySelectorAll('.btnDelete').forEach(button => {
             button.addEventListener('click', async (e) => {
                 const id = e.currentTarget.getAttribute('data-id');
@@ -151,7 +125,10 @@ async function loadMarcacoesCompletas() {
                         }
 
                         alert('Marcação removida com sucesso!');
-                        loadMarcacoesCompletas(); // recarregar a lista
+                        // Recarregar marcações aplicando filtros atuais
+                        const filtroData = document.getElementById('filtroData').value;
+                        const filtroUserId = document.getElementById('filtroUser').value;
+                        loadMarcacoesCompletas(filtroData, filtroUserId);
                     } catch (err) {
                         alert('Erro ao remover marcação');
                         console.error(err);
@@ -166,90 +143,49 @@ async function loadMarcacoesCompletas() {
     }
 }
 
-const modal = document.getElementById('modalMarcacao');
-const btnAddMarcacao = document.getElementById('btnAddMarcacao');
-const btnCancel = document.getElementById('btnCancel');
-const form = document.getElementById('formMarcacao');
-
-btnAddMarcacao.addEventListener('click', async () => {
-    modal.classList.remove('hidden');
-    await populateSelects();
-});
-
-btnCancel.addEventListener('click', () => {
-    modal.classList.add('hidden');
-});
-
 async function populateSelects() {
-  const token = localStorage.getItem('token');
-  const userSelect = document.getElementById('userId');
-  const pratoSelect = document.getElementById('pratoId');
+    const token = localStorage.getItem('token');
+    const userSelect = document.getElementById('userId');
+    const pratoSelect = document.getElementById('pratoId');
 
-  if (!token) {
-    alert('Token não encontrado. Faça login novamente.');
-    return;
-  }
+    try {
+        const resUsers = await fetch('http://localhost:3000/users', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const users = await resUsers.json();
+        userSelect.innerHTML = users.map(u => `<option value="${u._id}">${u.name}</option>`).join('');
 
-  try {
-    // USERS
-    const resUsers = await fetch('http://localhost:3000/users', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-
-    const usersData = await resUsers.json();
-    console.log('Resposta bruta de /users:', usersData);
-
-    const users = Array.isArray(usersData) ? usersData : usersData.users || [];
-
-    if (!Array.isArray(users)) {
-      throw new Error('Formato inesperado dos dados de usuários');
+        const resPratos = await fetch('http://localhost:3000/pratos', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const pratos = await resPratos.json();
+        pratoSelect.innerHTML = pratos.map(p => `<option value="${p._id}">${p.nome}</option>`).join('');
+    } catch (err) {
+        console.error('Erro ao popular selects:', err);
     }
-
-    userSelect.innerHTML = users.map(u => `<option value="${u._id}">${u.name}</option>`).join('');
-
-    // PRATOS
-    const resPratos = await fetch('http://localhost:3000/pratos', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-
-    const pratosData = await resPratos.json();
-    console.log('Resposta bruta de /pratos:', pratosData);
-
-    const pratos = Array.isArray(pratosData) ? pratosData : pratosData.pratos || [];
-
-    if (!Array.isArray(pratos)) {
-      throw new Error('Formato inesperado dos dados de pratos');
-    }
-
-    pratoSelect.innerHTML = pratos.map(p => `<option value="${p._id}">${p.nome}</option>`).join('');
-
-  } catch (err) {
-    console.error('Erro ao popular selects:', err);
-    userSelect.innerHTML = `<option disabled selected>Erro ao carregar usuários</option>`;
-    pratoSelect.innerHTML = `<option disabled selected>Erro ao carregar pratos</option>`;
-  }
 }
 
 async function populateUserFilter() {
-  const token = localStorage.getItem('token');
-  const filtroUser = document.getElementById('filtroUser');
+    const token = localStorage.getItem('token');
+    const filtroUser = document.getElementById('filtroUser');
 
-  try {
-    const resUsers = await fetch('http://localhost:3000/users', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const data = await resUsers.json();
-    const users = Array.isArray(data) ? data : data.users || [];
+    try {
+        const res = await fetch('http://localhost:3000/users', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        const users = data.users || data; // se data.users existir usa ele, senão usa data (caso seja array direto)
 
-    filtroUser.innerHTML += users.map(u => `<option value="${u._id}">${u.name}</option>`).join('');
-  } catch (err) {
-    console.error('Erro ao carregar filtro de usuários:', err);
-  }
+        filtroUser.innerHTML = '<option value="">Todos os Utilizadores</option>' +
+            users.map(u => `<option value="${u._id}">${u.name}</option>`).join('');
+    } catch (err) {
+        console.error('Erro ao carregar filtro de utilizadores:', err);
+    }
 }
 
 
 
-form.addEventListener('submit', async (e) => {
+document.getElementById('formMarcacao').addEventListener('submit', async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
 
@@ -258,11 +194,7 @@ form.addEventListener('submit', async (e) => {
     const data_marcacao = document.getElementById('data_marcacao').value;
     const horario = document.getElementById('horario').value;
 
-    const body = {
-        data_marcacao,
-        horario,
-        prato
-    };
+    const body = { data_marcacao, horario, prato };
 
     try {
         const res = await fetch(`http://localhost:3000/marcacoes/user/${userId}`, {
@@ -281,24 +213,42 @@ form.addEventListener('submit', async (e) => {
         }
 
         alert('Marcação criada com sucesso!');
-        modal.classList.add('hidden');
+        document.getElementById('modalMarcacao').classList.add('hidden');
         loadMarcacoesCompletas();
     } catch (err) {
-        console.error('Erro ao criar marcação:', err);
         alert('Erro ao criar marcação');
+        console.error(err);
     }
 });
 
+// Filtros
+window.addEventListener('DOMContentLoaded', () => {
+    populateUserFilter();
+    loadMarcacoesCompletas();
 
-// Carrega as marcações assim que a página termina de carregar
-window.addEventListener('DOMContentLoaded', loadMarcacoesCompletas);
+    const filtroData = document.getElementById('filtroData');
+    const filtroUser = document.getElementById('filtroUser');
+    const btnAplicarFiltros = document.getElementById('btnAplicarFiltros');
+    const btnResetarFiltros = document.getElementById('btnResetarFiltros');
 
-// Botão adicionar (exemplo, você pode implementar um modal ou redirecionar)
-const btnAdd = document.getElementById('btnAdd');
-if (btnAdd) {
-    btnAdd.addEventListener('click', () => {
-        alert('Funcionalidade de adicionar marcação ainda não implementada');
+    btnAplicarFiltros.addEventListener('click', () => {
+        const data = filtroData.value;
+        const userId = filtroUser.value;
+        loadMarcacoesCompletas(data, userId);
     });
-} else {
-    console.warn('Botão "btnAdd" não encontrado na página.');
-}
+
+    btnResetarFiltros.addEventListener('click', () => {
+        filtroData.value = '';
+        filtroUser.value = '';
+        loadMarcacoesCompletas();
+    });
+
+    document.getElementById('btnAddMarcacao').addEventListener('click', async () => {
+        document.getElementById('modalMarcacao').classList.remove('hidden');
+        await populateSelects();
+    });
+
+    document.getElementById('btnCancel').addEventListener('click', () => {
+        document.getElementById('modalMarcacao').classList.add('hidden');
+    });
+});

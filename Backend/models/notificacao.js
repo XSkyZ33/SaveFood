@@ -12,7 +12,7 @@ const notificacaoSchema = new mongoose.Schema({
     },
     estado: {
         type: String,  // Corrigi "string" para "String"
-        enum: ['lida', 'nao lida', 'apagada'],
+        enum: ['lida', 'nao lida'],
         default: 'nao lida'
     },
     data_envio: {

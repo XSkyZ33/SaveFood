@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,22 +8,22 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="../styles/style.css" />
-</head>
-<style>
-  .active-tab {
-    border-left: 4px solid #10b981;
-    background-color: rgba(16, 185, 129, 0.1);
-  }
+  <style>
+    .active-tab {
+      border-left: 4px solid #10b981;
+      background-color: rgba(16, 185, 129, 0.1);
+    }
 
-  .chart-container {
-    height: 250px;
-  }
-</style>
+    .chart-container {
+      height: 250px;
+    }
+  </style>
+</head>
 
 <body class="bg-gray-50 text-gray-800">
-
   <div class="flex min-h-screen">
 
+    <!-- Sidebar -->
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
       <div>
         <div class="p-4 border-b flex items-center">
@@ -31,7 +32,6 @@
           </div>
           <h1 class="text-xl font-bold">Save<span class="text-emerald-600">Food</span></h1>
         </div>
-
         <div class="p-4 border-b flex items-center">
           <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
             <i class="fas fa-user text-emerald-600"></i>
@@ -41,7 +41,6 @@
             <p class="text-sm text-gray-500">ESMAD</p>
           </div>
         </div>
-
         <nav class="mt-4">
           <a href="adminpage.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100">
             <i class="fas fa-tachometer-alt w-6 mr-3 text-emerald-600"></i>
@@ -64,7 +63,7 @@
             <span>Recompensas</span>
           </a>
           <a href="adminnotificacoes.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 ">
-           <i class="fas fa-bell w-6 mr-3 text-yellow-500"></i>
+            <i class="fas fa-bell w-6 mr-3 text-yellow-500"></i>
             <span>Notificações</span>
           </a>
           <a href="adminestatisticas.html" class="flex items-center p-3 text-gray-700 hover:bg-gray-100 ">
@@ -73,7 +72,6 @@
           </a>
         </nav>
       </div>
-
       <div class="p-4 border-t">
         <a href="Homepage.html" class="flex items-center text-gray-700 hover:text-emerald-600">
           <i class="fas fa-sign-out-alt w-6 mr-3"></i>
@@ -82,63 +80,69 @@
       </div>
     </aside>
 
-    
+    <!-- Main -->
     <main class="flex-1">
       <header class="bg-white shadow-sm p-4">
         <h1 class="text-2xl font-bold">Gestão de Recompensas</h1>
       </header>
 
       <section class="p-6 space-y-6">
-       
-        <div class="text-right">
-          <button class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+
+        <!-- Controles -->
+        <div class="flex justify-between items-center">
+          <select id="filterTipo" class="border border-gray-300 rounded px-3 py-2">
+            <option value="">Todos os tipos</option>
+            <option value="produto">Produto</option>
+            <option value="voucher">Voucher</option>
+            <option value="codigo_desconto">Código de Desconto</option>
+          </select>
+
+          <button id="btnNovaRecompensa" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
             + Adicionar Recompensa
           </button>
         </div>
 
-       
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-         
-          <div class="bg-white p-4 rounded-lg shadow flex flex-col justify-between">
-            <div>
-              <h2 class="text-lg font-semibold">Refeição Grátis</h2>
-              <p class="text-sm text-gray-500">Tipo: Produto</p>
-              <p class="text-sm text-gray-500">Pontos: 100</p>
-            </div>
-            <div class="flex justify-end gap-2 mt-4">
-              <button class="text-blue-600 hover:underline text-sm">Editar</button>
-              <button class="text-red-600 hover:underline text-sm">Remover</button>
-            </div>
-          </div>
-
-         
-          <div class="bg-white p-4 rounded-lg shadow flex flex-col justify-between">
-            <div>
-              <h2 class="text-lg font-semibold">Voucher 10%</h2>
-              <p class="text-sm text-gray-500">Tipo: Voucher</p>
-              <p class="text-sm text-gray-500">Pontos: 50</p>
-            </div>
-            <div class="flex justify-end gap-2 mt-4">
-              <button class="text-blue-600 hover:underline text-sm">Editar</button>
-              <button class="text-red-600 hover:underline text-sm">Remover</button>
-            </div>
-          </div>
-
-          
-          <div class="bg-white p-4 rounded-lg shadow flex flex-col justify-between">
-            <div>
-              <h2 class="text-lg font-semibold">Código de Desconto 20%</h2>
-              <p class="text-sm text-gray-500">Tipo: Código de Desconto</p>
-              <p class="text-sm text-gray-500">Pontos: 75</p>
-            </div>
-            <div class="flex justify-end gap-2 mt-4">
-              <button class="text-blue-600 hover:underline text-sm">Editar</button>
-              <button class="text-red-600 hover:underline text-sm">Remover</button>
-            </div>
-          </div>
+        <!-- Container de Recompensas -->
+        <div id="recompensasContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Cards renderizados aqui -->
         </div>
       </section>
     </main>
   </div>
+
+  <!-- Modal (dinâmico) -->
+  <div id="modalRecompensa" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+      <h2 id="modalTitulo" class="text-xl font-semibold mb-4">Nova Recompensa</h2>
+      <form id="formRecompensa" class="space-y-4">
+        <input type="hidden" id="recompensaId" />
+        <div>
+          <label class="block text-sm font-medium">Descrição</label>
+          <input type="text" id="descricao" class="w-full border border-gray-300 rounded px-3 py-2" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Objetivo (pontos)</label>
+          <input type="number" id="objetivo" class="w-full border border-gray-300 rounded px-3 py-2" min="1" required />
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Tipo de Recompensa</label>
+          <select id="tipo_recompensa" class="w-full border border-gray-300 rounded px-3 py-2" required>
+            <option value="">Selecione</option>
+            <option value="produto">Produto</option>
+            <option value="voucher">Voucher</option>
+            <option value="codigo_desconto">Código de Desconto</option>
+          </select>
+        </div>
+        <div class="flex justify-end gap-2 mt-4">
+          <button type="button" id="cancelarModal" class="px-4 py-2 border rounded text-gray-600">Cancelar</button>
+          <button type="submit"
+            class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="../js/adminrecompensas.js"></script>
 </body>
+
 </html>

@@ -107,8 +107,8 @@ function renderRecompensas(rewards) {
     // Conteúdo cartão
     card.innerHTML = `
       <div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">${r.tipo_recompensa}</h3>
-        <p class="text-gray-600 mb-4">${r.descricao}</p>
+        <h3 class="text-xl font-bold text-gray-800 mb-2">${r.descricao}</h3>
+        <p class="text-gray-600 mb-4">${r.tipo_recompensa}</p>
       </div>
       <div class="flex items-center justify-between">
         <p class="font-bold text-blue-600">${r.objetivo} pontos</p>

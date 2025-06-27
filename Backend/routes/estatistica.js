@@ -30,7 +30,7 @@ router.post('/', auth.validateAdmin, [
     body('dados.*').isObject().withMessage("Cada elemento de dados deve ser um objeto"),
 ], validateRequest, controller.createEstatistica);
 
-router.put('/:id', auth.validateAdmin, [
+router.patch('/:id', auth.validateAdmin, [
     param('id').notEmpty().escape(),
     body('tipo_estatistica').notEmpty().escape(),
     body('observacao').notEmpty().escape(),

@@ -15,12 +15,21 @@ const getNotificacoes = async (req, res) => {
 // Todas as notificações - apenas para admin
 const getAllNotificacoes = async (req, res) => {
     try {
-        const notificacoes = await Notificacao.find().sort({ data_envio: -1 });
+        const filtro = {};
+
+        // Verifica se foi passado um estado válido na query
+        const estado = req.query.estado;
+        if (estado && ['lida', 'nao lida'].includes(estado)) {
+            filtro.estado = estado;
+        }
+
+        const notificacoes = await Notificacao.find(filtro).sort({ data_envio: -1 });
         res.status(200).json(notificacoes);
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar todas as notificações', error });
+        res.status(500).json({ message: 'Erro ao buscar notificações', error });
     }
 };
+
 
 // Criar nova notificação
 const createNotificacao = async (req, res) => {

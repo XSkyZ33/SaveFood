@@ -89,14 +89,17 @@
       <section class="p-6 space-y-6">
         <div class="flex items-center gap-4 mb-4">
           <div>
-            <label for="filtroData" class="block text-sm font-medium text-gray-700">Filtrar por Data:</label>
-            <input type="date" id="filtroData" class="border rounded px-2 py-1" />
-          </div>
-          <div>
-            <label for="filtroUser" class="block text-sm font-medium text-gray-700">Filtrar por Usuário:</label>
-            <select id="filtroUser" class="border rounded px-2 py-1">
-              <option value="">Todos</option>
+            <label for="filtroData" class="mr-2">Filtrar por Data:</label>
+            <input type="date" id="filtroData" />
+            <label for="filtroUser">Filtrar por Utilizador:</label>
+            <select id="filtroUser">
+              <option value="">Todos os Utilizadores</option>
             </select>
+            <button id="btnAplicarFiltros" class="ml-2 bg-blue-500 text-white px-3 py-1 rounded">Aplicar
+              Filtros</button>
+            <button id="btnResetarFiltros" class="ml-2 bg-gray-400 text-white px-3 py-1 rounded">Resetar
+              Filtros</button>
+
           </div>
         </div>
 

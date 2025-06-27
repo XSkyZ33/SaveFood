@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin - Notificações</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="../styles/style.css">
+  <link rel="stylesheet" href="../styles/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
- <style>
+  <style>
     .active-tab {
       border-left: 4px solid #10b981;
       background-color: rgba(16, 185, 129, 0.1);
     }
+
     .chart-container {
       height: 250px;
     }
+
+    .filter-btn.active {
+      background-color: #10b981;
+      color: white;
+    }
   </style>
 </head>
+
 <body class="bg-gray-50 text-gray-800">
   <div class="flex min-h-screen">
     <aside class="w-64 bg-white shadow-md flex flex-col justify-between">
@@ -69,7 +76,7 @@
             <span>Estatísticas</span>
           </a>
         </nav>
-      </div> 
+      </div>
 
       <div class="p-4 border-t">
         <a href="Homepage.html" class="flex items-center text-gray-700 hover:text-emerald-600">
@@ -79,42 +86,92 @@
       </div>
     </aside>
 
-   
-    <main class="flex-1">
-      <header class="bg-white shadow-sm p-4">
+    <main class="flex-1 p-6">
+      <header class="mb-6">
         <h1 class="text-2xl font-bold">Notificações do Sistema</h1>
       </header>
 
-      <section class="p-6 space-y-6">
-       
-        <div class="flex gap-3">
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Todas</button>
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Ausências</button>
-          <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded">Desperdício</button>
+      <!-- Filtros + Botão Adicionar -->
+      <section class="flex justify-between items-center mb-6" id="filtro-container">
+        <div class="space-x-3">
+          <button class="filter-btn px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 active" data-state="all">
+            Todas
+          </button>
+          <button class="filter-btn px-4 py-2 rounded bg-gray-200 hover:bg-gray-300" data-state="lida">
+            Lidas
+          </button>
+          <button class="filter-btn px-4 py-2 rounded bg-gray-200 hover:bg-gray-300" data-state="nao lida">
+            Não lidas
+          </button>
         </div>
-
-       
-        <div class="space-y-4">
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
-            <p class="text-sm"><span class="font-bold">Aviso:</span> O aluno <span class="text-blue-600 font-semibold">João Silva</span> não compareceu à marcação de hoje às 12:00.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 12:30</p>
-          </div>
-
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
-            <p class="text-sm"><span class="font-bold">Alerta:</span> Foram registados <span class="text-red-600 font-semibold">10kg</span> de desperdício alimentar hoje.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 13:45</p>
-          </div>
-
-          
-          <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
-            <p class="text-sm"><span class="font-bold">Info:</span> Marcação de <span class="text-blue-600">Pedro Ferreira</span> foi cancelada por falta de confirmação.</p>
-            <p class="text-xs text-gray-400 mt-1">Recebido em: 18/05/2025 - 09:10</p>
-          </div>
-        </div>
+        <button id="adicionar-btn" class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700">
+          <i class="fas fa-plus mr-2"></i>Adicionar
+        </button>
       </section>
+
+      <!-- Container dos cards -->
+      <section id="cards-container" class="space-y-4"></section>
+
+      <!-- Modal Adicionar -->
+      <div id="modal-add" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+          <h2 class="text-xl font-semibold mb-4">Adicionar Notificação</h2>
+          <form id="form-add" class="space-y-4">
+            <div>
+              <label for="user-select" class="block mb-1 font-medium">Utilizador</label>
+              <select id="user-select" name="userId" class="w-full border rounded px-3 py-2" required></select>
+            </div>
+            <div>
+              <label for="mensagem-input" class="block mb-1 font-medium">Mensagem</label>
+              <textarea id="mensagem-input" name="mensagem" rows="3" class="w-full border rounded px-3 py-2"
+                required></textarea>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="modal-close-add" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">
+                Cancelar
+              </button>
+              <button type="submit" id="modal-save-add"
+                class="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700">
+                Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal Editar -->
+      <div id="modal-edit" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+        <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+          <h2 class="text-xl font-semibold mb-4">Editar Notificação</h2>
+          <form id="form-edit" class="space-y-4">
+            <div>
+              <label for="edit-mensagem-input" class="block mb-1 font-medium">Mensagem</label>
+              <textarea id="edit-mensagem-input" name="mensagem" rows="3" class="w-full border rounded px-3 py-2"
+                required></textarea>
+            </div>
+            <div>
+              <label for="edit-estado-select" class="block mb-1 font-medium">Estado</label>
+              <select id="edit-estado-select" name="estado" class="w-full border rounded px-3 py-2" required>
+                <option value="lida">Lida</option>
+                <option value="nao lida">Não lida</option>
+              </select>
+            </div>
+            <div class="flex justify-end space-x-2">
+              <button type="button" id="modal-close-edit" class="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400">
+                Cancelar
+              </button>
+              <button type="submit" id="modal-save-edit"
+                class="px-4 py-2 rounded bg-emerald-600 text-white hover:bg-emerald-700">
+                Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </main>
+
+    <script src="../js/adminnotificacoes.js" defer></script>
   </div>
 </body>
+
 </html>
