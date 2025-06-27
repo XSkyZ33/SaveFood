@@ -152,13 +152,20 @@ async function populateSelects() {
         const resUsers = await fetch('http://localhost:3000/users', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const users = await resUsers.json();
+        const data = await resUsers.json();
+        const users = data.users || data;  // se existir "users" pega ele, senão pega o próprio data
+
         userSelect.innerHTML = users.map(u => `<option value="${u._id}">${u.name}</option>`).join('');
 
         const resPratos = await fetch('http://localhost:3000/pratos', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
-        const pratos = await resPratos.json();
+        const pratosData = await resPratos.json();
+        const pratos = pratosData.pratos || pratosData;
+
+        pratoSelect.innerHTML = pratos.map(p => `<option value="${p._id}">${p.nome}</option>`).join('');
+
+
         pratoSelect.innerHTML = pratos.map(p => `<option value="${p._id}">${p.nome}</option>`).join('');
     } catch (err) {
         console.error('Erro ao popular selects:', err);
